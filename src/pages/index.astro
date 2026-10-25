@@ -1,4 +1,5 @@
 ---
+import { sitePath } from '../lib/urls';
 import { getEntry, getCollection, render } from 'astro:content';
 import Page from '../layouts/Page.astro';
 import PostList from '../components/PostList.astro';
@@ -11,9 +12,9 @@ const posts = (await getCollection('blog', ({data}) => data.featured && (import.
 <Page title={page.data.title} description={page.data.description} image={page.data.hero?.src}>
   <h1>{page.data.title}</h1>
   <p class="lead">{page.data.description}</p>
-  {page.data.hero && <img src={page.data.hero.src} alt={page.data.hero.alt} width="720" height="360" />}
+  {page.data.hero && <img src={sitePath(page.data.hero.src)} alt={page.data.hero.alt} width="720" height="360" />}
   <Content />
-  {page.data.callToAction && <p><a href={page.data.callToAction.href}>{page.data.callToAction.label} →</a></p>}
+  {page.data.callToAction && <p><a href={sitePath(page.data.callToAction.href)}>{page.data.callToAction.label} →</a></p>}
   <h2>From the journal</h2>
   <PostList posts={posts} />
 </Page>

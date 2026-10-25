@@ -1,15 +1,17 @@
 ---
+import { sitePath } from '../lib/urls';
 import type { HTMLAttributes } from 'astro/types';
 
 type Props = HTMLAttributes<'a'>;
 
 const { href, class: className, ...props } = Astro.props;
-const pathname = Astro.url.pathname.replace(import.meta.env.BASE_URL, '');
+const target = String(href ?? '/');
+const pathname = '/' + Astro.url.pathname.slice(import.meta.env.BASE_URL.length).replace(/^\/+/, '');
 const subpath = pathname.match(/[^\/]+/g);
-const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
+const isActive = target.replace(/\/$/, '') === pathname.replace(/\/$/, '') || target.replace(/\/$/, '') === '/' + (subpath?.[0] || '');
 ---
 
-<a href={href} class:list={[className, { active: isActive }]} {...props}>
+<a href={sitePath(target)} class:list={[className, { active: isActive }]} {...props}>
 	<slot />
 </a>
 <style>

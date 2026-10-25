@@ -1,6 +1,9 @@
+---
+import { sitePath } from '../lib/urls';
+---
 <footer>
   <p>Marpos Studio · A workspace for your website’s words.</p>
-  <p><a href="/about/">About this reference site</a> · <a href="/rss.xml">RSS</a> · Built with <a href="https://astro.build/">Astro</a></p>
+  <p><a href={sitePath('/about/')}>About this reference site</a> · <a href={sitePath('/rss.xml')}>RSS</a> · Built with <a href="https://astro.build/">Astro</a></p>
 </footer>
 <style>
 footer { border-top: 1px solid rgb(var(--gray-light)); padding: 2em 1em; text-align: center; color: rgb(var(--gray)); font-size: .85em; }

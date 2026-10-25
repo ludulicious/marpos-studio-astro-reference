@@ -1,4 +1,5 @@
 ---
+import { sitePath } from '../lib/urls';
 import '../styles/global.css';
 import { SITE_TITLE } from '../consts';
 interface Props { title: string; description: string; image?: string }
@@ -11,10 +12,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 <title>{title} · {SITE_TITLE}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
-<link rel="sitemap" href="/sitemap-index.xml" />
-<link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href="/rss.xml" />
+<link rel="sitemap" href={sitePath('/sitemap-index.xml')} />
+<link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href={sitePath('/rss.xml')} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:type" content="website" />
-<meta property="og:image" content={new URL(image, Astro.site)} />
+<meta property="og:image" content={new URL(sitePath(image), Astro.site)} />
 <meta property="og:url" content={canonical} />

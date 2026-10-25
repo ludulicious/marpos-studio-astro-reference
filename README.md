@@ -26,7 +26,7 @@ Astro is pinned to 6.4.8, the release used for this reference's verification. MD
 3. Studio clones the repository, installs its dependencies, and discovers Pages, Blog, Authors and Categories.
 4. Edit a story and check **Preview this page**. Save the local edit, then open **Review & publish** to inspect the content comparison.
 5. Choose **Save for later** to test an online draft. Reopen that draft, finish the edit, and use **Publish changes** to update the default branch after review and confirmation.
-6. Check the resulting content and website update on GitHub. Publication updates Git; a live website additionally needs a hosting deployment, as described below.
+6. Check the resulting content and website update on GitHub. Publication updates Git; the live website updates automatically through the GitHub Pages workflow described below.
 
 If this new repository is absent from Studio's repository list, check that the GitHub connection has access to it, then refresh the list. For an independent test, fork this public repository to an account where you have write access and add your fork instead.
 
@@ -58,13 +58,32 @@ Images live in `public/images/`. The `hero` field stores `{ src, alt }`, which S
 5. Create a new blog story with the required details, an existing author and at least one topic. Set status to `draft`. Preview its `/blog/<id>/` route. It should appear in development, while `npm run build` excludes it. Set status to `published`, rebuild, and confirm it appears in the static site and RSS.
 6. Create an ordinary page, author and topic. Check the new page route and shared previews for the data records. Select the new author/topic on a story to exercise newly saved reference choices.
 7. Temporarily change a story in page preview, then discard it. Confirm the saved page returns. Save another edit and confirm it survives reopening. With no unsaved editor changes, edit a content file or schema in your code editor and check Studio's local refresh.
-8. With this repository added through GitHub, check review, online draft saving, reopening the draft, and publishing. Verify that only the intended content and media changes reach the default branch. GitHub publication does not deploy a live website until hosting is configured.
+8. With this repository added through GitHub, check review, online draft saving, reopening the draft, and publishing. Verify that only the intended content and media changes reach the default branch. Publishing to `main` automatically triggers the GitHub Pages workflow. Wait for its successful deployment, then check the live page.
 
 A production build verifies Astro rendering and content contracts; it does not prove the whole desktop editing workflow. The steps above are the manual acceptance session for that workflow. Remote loaders, MDX, Vue islands and SSR adapters are not covered by this static reference.
 
-## Publishing this reference website
+## GitHub Pages and end-to-end publishing
 
-Change `site` in `astro.config.mjs` from `https://example.com` to the deployed URL before using canonical URLs, sitemap or RSS publicly. Deploy `dist/` using your normal static host. The draft/published field is this website's visibility rule; it is separate from a Studio online draft or a Git branch.
+Live website: **https://ludulicious.github.io/marpos-studio-astro-reference/**
+
+Every push to `main`, including a publication through Marpos Studio, runs `.github/workflows/deploy.yml`. It installs locked dependencies, checks the Astro project, builds the static website, and deploys `dist/` to GitHub Pages. You can also run it manually from the repository's Actions tab. Online drafts remain on their own branches and do not deploy.
+
+To verify a publication:
+
+1. Add this repository through **Add project** in Studio. If it is already open, use **Get latest website** to receive this deployment setup.
+2. Make a recognisable change to a published article and preview it. Review and publish the change through Studio.
+3. Watch **Deploy Astro to GitHub Pages** in [Actions](https://github.com/ludulicious/marpos-studio-astro-reference/actions).
+4. After the run succeeds, open the article on the live website and confirm the edit. The `status` field must be `published` for a story to appear in a production build.
+5. For Studio's deployment confirmation, open **Review & publish → Website updates → Manage environments** and add **Production** with `https://ludulicious.github.io/marpos-studio-astro-reference/` (including the repository subpath). Save the next website update through Studio so it generates `public/marpos-deployment.json`. The deployment includes that public marker automatically; **Check environments** can then identify the deployed update.
+
+GitHub Pages builds set `ASTRO_BASE_PATH=/marpos-studio-astro-reference/`. Links, images, Markdown content and feeds include this prefix in production. Local development and Studio previews keep root URLs, as do the content files and `studio.preview.json`. To reproduce the Pages build locally:
+
+```sh
+ASTRO_BASE_PATH=/marpos-studio-astro-reference/ npm run build
+ASTRO_BASE_PATH=/marpos-studio-astro-reference/ npm run preview
+```
+
+`site` in `astro.config.mjs` identifies the Pages origin for canonical URLs and feeds. If you fork the repository for another account, update that origin and the workflow's `ASTRO_BASE_PATH`. No custom domain or paid hosting is required.
 
 ## Attribution
 

@@ -1,4 +1,5 @@
 ---
+import { sitePath } from '../lib/urls';
 import { getCollection } from 'astro:content';
 import Page from '../layouts/Page.astro';
 const categories = (await getCollection('categories')).sort((a,b) => a.data.order - b.data.order);
@@ -8,6 +9,6 @@ const posts = await getCollection('blog', ({data}) => import.meta.env.DEV || dat
   <h1>Explore the topics</h1>
   {categories.map(category => <section id={category.id}>
     <h2>{category.data.title}</h2><p>{category.data.description}</p>
-    <ul>{posts.filter(post => post.data.categories.some(item => item.id === category.id)).map(post => <li><a href={`/blog/${post.id}/`}>{post.data.title}</a></li>)}</ul>
+    <ul>{posts.filter(post => post.data.categories.some(item => item.id === category.id)).map(post => <li><a href={sitePath(`/blog/${post.id}/`)}>{post.data.title}</a></li>)}</ul>
   </section>)}
 </Page>

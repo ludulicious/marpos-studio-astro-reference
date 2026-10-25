@@ -1,15 +1,16 @@
 ---
+import { sitePath } from '../lib/urls';
 import HeaderLink from './HeaderLink.astro';
 ---
 <a class="sr-only" href="#main">Skip to content</a>
 <header>
   <nav aria-label="Main navigation">
-    <a class="brand" href="/">Marpos Studio</a>
+    <a class="brand" href={sitePath('/')}>Marpos Studio</a>
     <div>
-      <HeaderLink href="/blog/">Journal</HeaderLink>
-      <HeaderLink href="/topics/">Topics</HeaderLink>
-      <HeaderLink href="/team/">Contributors</HeaderLink>
-      <HeaderLink href="/about/">About</HeaderLink>
+      <HeaderLink href={sitePath('/blog/')}>Journal</HeaderLink>
+      <HeaderLink href={sitePath('/topics/')}>Topics</HeaderLink>
+      <HeaderLink href={sitePath('/team/')}>Contributors</HeaderLink>
+      <HeaderLink href={sitePath('/about/')}>About</HeaderLink>
     </div>
   </nav>
 </header>

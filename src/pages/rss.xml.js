@@ -1,3 +1,4 @@
+import { sitePath } from '../lib/urls';
 import { getCollection } from 'astro:content';
 import rss from '@astrojs/rss';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
@@ -5,5 +6,5 @@ export async function GET(context) {
   const posts = (await getCollection('blog', ({data}) => data.status === 'published'))
     .sort((a,b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
   return rss({title: SITE_TITLE, description: SITE_DESCRIPTION, site: context.site,
-    items: posts.map(({id, data}) => ({title: data.title, description: data.description, pubDate: data.pubDate, link: `/blog/${id}/`}))});
+    items: posts.map(({id, data}) => ({title: data.title, description: data.description, pubDate: data.pubDate, link: sitePath(`/blog/${id}/`)}))});
 }

@@ -1,4 +1,5 @@
 ---
+import { sitePath } from '../lib/urls';
 import { getCollection, render } from 'astro:content';
 import Page from '../layouts/Page.astro';
 export async function getStaticPaths() {
@@ -11,7 +12,7 @@ const { Content } = await render(page);
 <Page title={page.data.title} description={page.data.description} image={page.data.hero?.src}>
   <h1>{page.data.title}</h1>
   <p>{page.data.description}</p>
-  {page.data.hero && <img src={page.data.hero.src} alt={page.data.hero.alt} width="720" height="360" />}
+  {page.data.hero && <img src={sitePath(page.data.hero.src)} alt={page.data.hero.alt} width="720" height="360" />}
   <Content />
-  {page.data.callToAction && <p><a href={page.data.callToAction.href}>{page.data.callToAction.label} →</a></p>}
+  {page.data.callToAction && <p><a href={sitePath(page.data.callToAction.href)}>{page.data.callToAction.label} →</a></p>}
 </Page>
