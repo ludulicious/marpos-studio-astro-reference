@@ -1,0 +1,12 @@
+---
+import { getCollection } from 'astro:content';
+import Page from '../../layouts/Page.astro';
+import PostList from '../../components/PostList.astro';
+const posts = (await getCollection('blog', ({data}) => import.meta.env.DEV || data.status === 'published'))
+  .sort((a,b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+<Page title="The Marpos Studio journal" description="Practical guides for a calmer website content workflow, from your first edit to a reviewed publication.">
+  <h1>The journal</h1>
+  <p>Thoughtful content starts with a workflow you can trust.</p>
+  <PostList posts={posts} />
+</Page>

@@ -1,0 +1,19 @@
+---
+import { getEntry, getCollection, render } from 'astro:content';
+import Page from '../layouts/Page.astro';
+import PostList from '../components/PostList.astro';
+const page = await getEntry('pages', 'home');
+if (!page) throw new Error('The home page content is missing.');
+const { Content } = await render(page);
+const posts = (await getCollection('blog', ({data}) => data.featured && (import.meta.env.DEV || data.status === 'published')))
+  .sort((a,b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+<Page title={page.data.title} description={page.data.description} image={page.data.hero?.src}>
+  <h1>{page.data.title}</h1>
+  <p class="lead">{page.data.description}</p>
+  {page.data.hero && <img src={page.data.hero.src} alt={page.data.hero.alt} width="720" height="360" />}
+  <Content />
+  {page.data.callToAction && <p><a href={page.data.callToAction.href}>{page.data.callToAction.label} →</a></p>}
+  <h2>From the journal</h2>
+  <PostList posts={posts} />
+</Page>

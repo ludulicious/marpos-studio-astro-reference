@@ -1,0 +1,15 @@
+---
+import { getCollection } from 'astro:content';
+import Page from '../layouts/Page.astro';
+const authors = await getCollection('authors');
+const posts = await getCollection('blog', ({data}) => import.meta.env.DEV || data.status === 'published');
+---
+<Page title="Contributors" description="Meet the editorial voices behind the Marpos Studio reference journal.">
+  <h1>Contributors</h1>
+  <p>These sample editorial profiles demonstrate shared author records.</p>
+  {authors.map(author => <section id={author.id}>
+    <h2>{author.data.name}</h2><p><strong>{author.data.role}</strong></p><p>{author.data.bio}</p>
+    {author.data.website && <p><a href={author.data.website}>Website</a></p>}
+    <ul>{posts.filter(post => post.data.author.id === author.id).map(post => <li><a href={`/blog/${post.id}/`}>{post.data.title}</a></li>)}</ul>
+  </section>)}
+</Page>

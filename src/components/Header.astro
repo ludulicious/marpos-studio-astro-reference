@@ -1,0 +1,22 @@
+---
+import HeaderLink from './HeaderLink.astro';
+---
+<a class="sr-only" href="#main">Skip to content</a>
+<header>
+  <nav aria-label="Main navigation">
+    <a class="brand" href="/">Marpos Studio</a>
+    <div>
+      <HeaderLink href="/blog/">Journal</HeaderLink>
+      <HeaderLink href="/topics/">Topics</HeaderLink>
+      <HeaderLink href="/team/">Contributors</HeaderLink>
+      <HeaderLink href="/about/">About</HeaderLink>
+    </div>
+  </nav>
+</header>
+<style>
+header { background: white; border-bottom: 1px solid rgb(var(--gray-light)); padding: 1em; }
+nav { max-width: 960px; margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 1em; flex-wrap: wrap; }
+nav div { display: flex; gap: 1em; flex-wrap: wrap; }
+a { text-decoration: none; }
+.brand { font-weight: bold; color: rgb(var(--black)); }
+</style>

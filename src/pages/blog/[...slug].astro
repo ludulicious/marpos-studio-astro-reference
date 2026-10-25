@@ -1,0 +1,32 @@
+---
+import { getCollection, getEntry, getEntries, render } from 'astro:content';
+import Page from '../../layouts/Page.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import PostList from '../../components/PostList.astro';
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({data}) => import.meta.env.DEV || data.status === 'published');
+  return posts.map(post => ({params: {slug: post.id}, props: {post}}));
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+const author = await getEntry(post.data.author);
+const categories = await getEntries(post.data.categories);
+const related = (await getEntries(post.data.relatedPosts ?? []))
+  .filter(entry => entry && (import.meta.env.DEV || entry.data.status === 'published'));
+---
+<Page title={post.data.title} description={post.data.description} image={post.data.hero?.src}>
+  <article>
+    <p><a href="/blog/">← Journal</a></p>
+    {post.data.status === 'draft' && <p role="status">Draft preview · This story is excluded from the production build.</p>}
+    <h1>{post.data.title}</h1>
+    <p>{post.data.description}</p>
+    <p><FormattedDate date={post.data.pubDate} /> · {post.data.readingMinutes} min read · <a href={`/team/#${post.data.author.id}`}>{author?.data.name ?? post.data.author.id}</a></p>
+    {post.data.updatedDate && <p>Updated <FormattedDate date={post.data.updatedDate} /></p>}
+    <p>{categories.filter(Boolean).map(category => <a class="topic" href={`/topics/#${category.id}`}>{category.data.title}</a>)}</p>
+    {post.data.hero && <img src={post.data.hero.src} alt={post.data.hero.alt} width="720" height="360" />}
+    <Content />
+    {post.data.tags.length > 0 && <p>Filed under: {post.data.tags.join(', ')}</p>}
+  </article>
+  {related.length > 0 && <section><h2>Keep reading</h2><PostList posts={related} /></section>}
+</Page>
+<style>.topic { display: inline-block; margin-right: 1em; }</style>

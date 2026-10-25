@@ -1,0 +1,9 @@
+{
+  "src/content/pages/home.md": "/",
+  "src/content/pages/about.md": "/about/",
+  "src/data/authors/studio-editorial.json": "/team/",
+  "src/data/authors/studio-developers.json": "/team/",
+  "src/data/categories/editing.yml": "/topics/",
+  "src/data/categories/workflow.yml": "/topics/",
+  "src/data/categories/astro.yml": "/topics/"
+}
