@@ -1,4 +1,5 @@
 ---
+path: /team/
 title: Contributors
 description: Meet the editorial voices behind the Marpos Studio reference journal.
 ---

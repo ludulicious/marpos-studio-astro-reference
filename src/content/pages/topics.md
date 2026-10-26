@@ -1,4 +1,5 @@
 ---
+path: /topics/
 title: Explore the topics
 description: Find practical Marpos Studio guidance on content editing, editorial workflows, and Astro websites.
 ---

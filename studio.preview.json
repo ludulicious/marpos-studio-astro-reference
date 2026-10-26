@@ -6,7 +6,7 @@
   "src/data/categories/editing.yml": "/topics/",
   "src/data/categories/workflow.yml": "/topics/",
   "src/data/categories/astro.yml": "/topics/",
-  "src/content/pages/team/index.md": "/team/",
-  "src/content/pages/topics/index.md": "/topics/",
-  "src/content/pages/blog/index.md": "/blog/"
+  "src/content/pages/team.md": "/team/",
+  "src/content/pages/topics.md": "/topics/",
+  "src/content/pages/blog.md": "/blog/"
 }

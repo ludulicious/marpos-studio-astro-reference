@@ -16,6 +16,8 @@ export const collections = {
     loader: glob({ base: './src/content/pages', pattern: '**/*.md' }),
     schema: z.object({
       ...pageFields,
+      // Template-owned pages keep a fixed URL while their content stays editable.
+      path: z.string().startsWith('/').optional(),
       hero: media.optional(),
       callToAction: z.object({ label: z.string().min(1), href: z.string().startsWith('/') }).optional(),
     }),
