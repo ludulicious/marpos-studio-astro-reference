@@ -1,0 +1,39 @@
+---
+interface Props { placeholder: string; filters?: string[] }
+const { placeholder, filters = [] } = Astro.props;
+---
+<form class="collection-search" role="search" data-collection-search hidden>
+ <label>Search <input type="search" placeholder={placeholder} name="q" autocomplete="off" /></label>
+ {filters.length > 0 && <label>Collection <select name="category"><option value="">All collections</option>{filters.map(filter => <option>{filter}</option>)}</select></label>}
+ <button type="reset" class="text-button">Reset</button>
+ <p class="search-count meta" aria-live="polite" role="status"></p>
+</form>
+<p data-search-empty hidden>No matches. Try another search or reset the filters.</p>
+<script>
+ document.querySelectorAll<HTMLFormElement>('[data-collection-search]').forEach(form => {
+  form.hidden = false;
+  const input = form.querySelector<HTMLInputElement>('input')!;
+  const select = form.querySelector<HTMLSelectElement>('select');
+  const items = Array.from(document.querySelectorAll<HTMLElement>('[data-search-item]'));
+  const params = new URLSearchParams(location.search);
+  input.value = params.get('q') ?? '';
+  if (select) select.value = params.get('category') ?? '';
+  const update = () => {
+   const words = input.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+   let count = 0;
+   items.forEach(item => { const match = words.every(word => (item.dataset.search ?? '').includes(word)) && (!select?.value || item.dataset.category === select.value); item.hidden = !match; if (match) count++; });
+   form.querySelector('[role="status"]')!.textContent = `${count} ${count === 1 ? 'result' : 'results'}`;
+   document.querySelectorAll<HTMLElement>('[data-search-empty]').forEach(el => el.hidden = count > 0);
+   const url = new URL(location.href);
+   input.value ? url.searchParams.set('q', input.value) : url.searchParams.delete('q');
+   select?.value ? url.searchParams.set('category', select.value) : url.searchParams.delete('category');
+   history.replaceState(null, '', url);
+  };
+  let timer: ReturnType<typeof setTimeout>;
+  form.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(update, 150); });
+  form.addEventListener('submit', event => { event.preventDefault(); update(); });
+  form.addEventListener('reset', () => { clearTimeout(timer); setTimeout(update, 0); });
+  window.addEventListener('popstate', () => { const p = new URLSearchParams(location.search); input.value = p.get('q') ?? ''; if (select) select.value = p.get('category') ?? ''; update(); });
+  update();
+ });
+</script>

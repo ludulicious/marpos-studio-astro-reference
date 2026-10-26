@@ -11,7 +11,7 @@ const subpath = pathname.match(/[^\/]+/g);
 const isActive = target.replace(/\/$/, '') === pathname.replace(/\/$/, '') || target.replace(/\/$/, '') === '/' + (subpath?.[0] || '');
 ---
 
-<a href={sitePath(target)} class:list={[className, { active: isActive }]} {...props}>
+<a href={sitePath(target)} aria-current={isActive ? 'page' : undefined} class:list={[className, { active: isActive }]} {...props}>
 	<slot />
 </a>
 <style>

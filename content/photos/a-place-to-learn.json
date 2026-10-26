@@ -1,0 +1,22 @@
+{
+  "title": "A place to learn",
+  "creator": "gabrielloayza",
+  "creatorUrl": "https://wordpress.org/photos/author/gabrielloayza/",
+  "sourceUrl": "https://wordpress.org/photos/photo/8676a6e6e5/",
+  "originalUrl": "https://pd.w.org/2026/08/8676a6e6e50648ef4.04305584.jpg",
+  "license": "CC0 1.0",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "width": 1024,
+  "height": 768,
+  "changes": "Resized by WordPress; displayed with a crop in previews.",
+  "image": {
+    "src": "/images/library/a-place-to-learn.jpg",
+    "alt": "A classroom with wooden desks, blue walls, and large windows letting in natural light."
+  },
+  "categories": [
+    "Workspaces"
+  ],
+  "credit": "gabrielloayza",
+  "visible": true,
+  "order": 2048
+}

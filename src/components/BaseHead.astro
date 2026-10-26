@@ -3,7 +3,7 @@ import { sitePath } from '../lib/urls';
 import '../styles/global.css';
 import { SITE_TITLE } from '../consts';
 interface Props { title: string; description: string; image?: string }
-const { title, description, image = '/images/workspace.jpg' } = Astro.props;
+const { title, description, image = '/images/library/the-bright-meeting-room.jpg' } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 <meta charset="utf-8" />

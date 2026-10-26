@@ -1,0 +1,18 @@
+---
+import Page from '../../layouts/Page.astro';
+import { getMedia } from '../../lib/media';
+import VideoLesson from '../../components/VideoLesson.astro';
+import { sitePath } from '../../lib/urls';
+export async function getStaticPaths() { return (await getMedia()).map(item => ({params: {id: item.id}, props: {item}})); }
+const { item } = Astro.props;
+---
+<Page title={item.data.title} description={item.data.description ?? item.data.alt} image={item.data.src}>
+ <p class="breadcrumb"><a href={sitePath('/library/')}>← Media library</a></p><h1>{item.data.title}</h1><p class="lead">{item.data.category} · {item.data.kind === 'photo' ? 'Photograph' : 'Video lesson'}</p>
+ <div class="asset-layout"><div>{item.data.kind === 'video' ? <VideoLesson video={item} /> : <img class="asset-full" src={sitePath(item.data.src)} alt={item.data.alt} width={item.data.width} height={item.data.height} />}</div><aside class="asset-details"><h2>About this asset</h2><dl><dt>Creator</dt><dd>{item.data.creatorUrl ? <a href={item.data.creatorUrl}>{item.data.creator}</a> : item.data.creator}</dd><dt>License</dt><dd>{item.data.licenseUrl ? <a href={item.data.licenseUrl}>{item.data.license}</a> : item.data.license}</dd><dt>Source dimensions</dt><dd>{item.data.kind === 'photo' ? `${item.data.width} × ${item.data.height}` : 'Responsive video'}</dd><dt>Image description</dt><dd>{item.data.alt}</dd><dt>Changes</dt><dd>{item.data.changes}</dd></dl>{item.data.sourceUrl && <p><a href={item.data.sourceUrl}>View original source ↗</a></p>}{item.data.kind === 'photo' && <><a class="button" href={sitePath(item.data.src)} download>Download photo ↓</a><button type="button" class="copy-path text-button" aria-live="polite" data-path={item.data.src}>Copy image path</button><p class="meta">Local file: <code>{item.data.src}</code></p></>}{item.data.lesson && <p><a href={sitePath(`/blog/${item.data.lesson.id}/`)}>Read the related manual chapter →</a></p>}</aside></div>
+</Page>
+<script>
+ document.querySelectorAll<HTMLButtonElement>('.copy-path').forEach(button => button.addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText(button.dataset.path!); button.textContent = 'Path copied ✓'; setTimeout(() => button.textContent = 'Copy image path', 2500); }
+  catch { button.textContent = 'Copy unavailable — select the path below'; }
+ }));
+</script>

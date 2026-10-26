@@ -2,22 +2,10 @@
 import { sitePath } from '../lib/urls';
 import HeaderLink from './HeaderLink.astro';
 ---
-<a class="sr-only" href="#main">Skip to content</a>
-<header>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="masthead"><a class="brand" href={sitePath('/')}><span class="brand-mark" aria-hidden="true">m.</span> Marpos Studio</a><span class="edition">The editor’s handbook</span></div>
   <nav aria-label="Main navigation">
-    <a class="brand" href={sitePath('/')}>Marpos Studio</a>
-    <div>
-      <HeaderLink href={sitePath('/blog/')}>Journal</HeaderLink>
-      <HeaderLink href={sitePath('/topics/')}>Topics</HeaderLink>
-      <HeaderLink href={sitePath('/team/')}>Contributors</HeaderLink>
-      <HeaderLink href={sitePath('/about/')}>About</HeaderLink>
-    </div>
+    <HeaderLink href="/blog/">User manual</HeaderLink><HeaderLink href="/library/">Media library</HeaderLink><HeaderLink href="/topics/">Topics</HeaderLink><HeaderLink href="/team/">Contributors</HeaderLink><HeaderLink href="/about/">About</HeaderLink>
   </nav>
 </header>
-<style>
-header { background: white; border-bottom: 1px solid rgb(var(--gray-light)); padding: 1em; }
-nav { max-width: 960px; margin: auto; display: flex; align-items: center; justify-content: space-between; gap: 1em; flex-wrap: wrap; }
-nav div { display: flex; gap: 1em; flex-wrap: wrap; }
-a { text-decoration: none; }
-.brand { font-weight: bold; color: rgb(var(--black)); }
-</style>

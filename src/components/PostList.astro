@@ -1,25 +1,13 @@
 ---
 import { sitePath } from '../lib/urls';
 import type { CollectionEntry } from 'astro:content';
-import FormattedDate from './FormattedDate.astro';
 interface Props { posts: CollectionEntry<'blog'>[] }
 const { posts } = Astro.props;
 ---
-<ul class="posts">
-  {posts.map(post => <li>
-    <a href={sitePath(`/blog/${post.id}/`)}>
-      {post.data.hero && <img src={sitePath(post.data.hero.src)} alt={post.data.hero.alt} width="720" height="360" loading="lazy" />}
-      <h2>{post.data.title}</h2>
-    </a>
-    <p class="meta"><FormattedDate date={post.data.pubDate} /> · {post.data.readingMinutes} min read {post.data.status === 'draft' && ' · Draft preview'}</p>
-    <p>{post.data.description}</p>
-  </li>)}
-</ul>
-<style>
-.posts { list-style: none; padding: 0; display: grid; gap: 2em; }
-li { border-bottom: 1px solid rgb(var(--gray-light)); padding-bottom: 1em; }
-a { text-decoration: none; }
-h2 { font-size: 1.7em; }
-.meta { color: rgb(var(--gray)); font-size: .85em; }
-img { width: 100%; object-fit: cover; aspect-ratio: 2; }
-</style>
+<ol class="lesson-list">
+{posts.map(post => <li data-search-item data-search={`${post.data.title} ${post.data.description} ${post.data.tags.join(' ')}`.toLowerCase()}>
+  <span class="chapter-number" aria-label={`Chapter ${post.data.chapter ?? ''}`}>{post.data.chapter ? String(post.data.chapter).padStart(2,'0') : '—'}</span>
+  <div><p class="meta">{post.data.readingMinutes} min read{post.data.videos.length > 0 && ' · Includes video'}{post.data.status === 'draft' && ' · Draft preview'}</p><h2><a href={sitePath(`/blog/${post.id}/`)}>{post.data.title}</a></h2><p>{post.data.description}</p></div>
+  {post.data.hero && <a class="lesson-image" href={sitePath(`/blog/${post.id}/`)} tabindex="-1" aria-hidden="true"><img src={sitePath(post.data.hero.src)} alt="" width="240" height="180" loading="lazy" /></a>}
+</li>)}
+</ol>

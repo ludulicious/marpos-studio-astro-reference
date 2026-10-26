@@ -1,0 +1,24 @@
+{
+  "title": "Getting to know the block editor",
+  "creator": "WordPress.com",
+  "creatorUrl": "https://wordpress.com/",
+  "sourceUrl": "https://wordpress.com/support/wordpress-editor/",
+  "license": "Source-hosted video",
+  "licenseUrl": "https://wordpress.com/support/wordpress-editor/",
+  "width": 480,
+  "height": 360,
+  "changes": "Unmodified YouTube embed from the source lesson. No video file is redistributed.",
+  "description": "An introduction to blocks and the WordPress editor. The video provides CMS context; the written chapter explains how to edit in Marpos Studio.",
+  "lesson": "your-first-edit",
+  "image": {
+    "src": "/images/library/publishing-with-blocks.jpg",
+    "alt": "Video lesson: Getting to know the block editor"
+  },
+  "categories": [
+    "CMS tutorials"
+  ],
+  "credit": "WordPress.com",
+  "visible": true,
+  "order": 12288,
+  "youtubeId": "-kqgGArwfxk"
+}

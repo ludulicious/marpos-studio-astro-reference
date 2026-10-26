@@ -1,11 +1,4 @@
 ---
 import { sitePath } from '../lib/urls';
 ---
-<footer>
-  <p>Marpos Studio · A workspace for your website’s words.</p>
-  <p><a href={sitePath('/about/')}>About this reference site</a> · <a href={sitePath('/rss.xml')}>RSS</a> · Built with <a href="https://astro.build/">Astro</a></p>
-</footer>
-<style>
-footer { border-top: 1px solid rgb(var(--gray-light)); padding: 2em 1em; text-align: center; color: rgb(var(--gray)); font-size: .85em; }
-footer p { margin: .25em; }
-</style>
+<footer class="site-footer"><div><a class="footer-brand" href={sitePath('/')}>Marpos Studio</a><p>A little guidance. Better publishing.</p></div><div class="footer-links"><a href={sitePath('/blog/')}>User manual</a><a href={sitePath('/library/')}>Media & credits</a><a href={sitePath('/about/')}>About this reference</a><a href={sitePath('/rss.xml')}>RSS</a></div><p class="colophon">An Astro reference website · Sample editorial content · Photography credited in the media library.</p></footer>

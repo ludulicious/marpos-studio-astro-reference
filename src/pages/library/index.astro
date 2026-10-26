@@ -1,0 +1,19 @@
+---
+import Page from '../../layouts/Page.astro';
+import { getMedia } from '../../lib/media';
+import CollectionSearch from '../../components/CollectionSearch.astro';
+import { sitePath } from '../../lib/urls';
+const media = (await getMedia()).sort((a,b) => a.data.kind.localeCompare(b.data.kind) || a.data.order - b.data.order || a.data.title.localeCompare(b.data.title));
+const photos = media.filter(item => item.data.kind === 'photo');
+const videos = media.filter(item => item.data.kind === 'video');
+---
+<Page title="The media library" description="A considered collection of CC0 photography and practical CMS video lessons, ready to explore in the Marpos Studio reference.">
+ <div class="page-intro"><p class="breadcrumb"><a href={sitePath('/')}>Handbook</a> / Media library</p><h1>Good stories need<br />good images.</h1><p class="lead">{photos.length} real photographs. {videos.length} practical video lessons.<br />A small collection for learning, making, and publishing.</p></div>
+ <div class="library-note"><p><strong>Made to be used.</strong> The sample photos are local files released under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>. Every asset has its source, credit, and license. Videos are embedded from official WordPress learning resources with attribution.</p><a href={sitePath('/blog/manage-your-media-library/')}>How to use this library ↗</a></div>
+ <CollectionSearch placeholder="Search images, videos, or creators…" filters={[...new Set(media.map(item => item.data.category))]} />
+ <div class="media-grid">{media.map(item => <article class="media-card" data-search-item data-category={item.data.category} data-search={`${item.data.title} ${item.data.kind} ${item.data.category} ${item.data.alt} ${item.data.creator}`.toLowerCase()}>
+  <a class="media-preview" href={sitePath(`/library/${item.id}/`)}><img src={sitePath(item.data.previewSrc ?? item.data.src)} alt={item.data.alt} width={item.data.width} height={item.data.height} loading="lazy" />{item.data.kind === 'video' && <span class="video-badge">▶ {item.data.duration ?? 'Video'}</span>}</a>
+  <p class="meta">{item.data.category} · {item.data.license}</p><h2><a href={sitePath(`/library/${item.id}/`)}>{item.data.title}</a></h2><p class="media-credit">By {item.data.creator}</p>
+ </article>)}</div>
+ <p class="source-note">Photography from the <a href="https://wordpress.org/photos/">WordPress Photo Directory</a>. Open an asset for its original source and reuse details.</p>
+</Page>

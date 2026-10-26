@@ -1,0 +1,22 @@
+{
+  "title": "Rolling green hills",
+  "creator": "Dorian Blanco",
+  "creatorUrl": "https://wordpress.org/photos/author/dorianblanco/",
+  "sourceUrl": "https://wordpress.org/photos/photo/8006adc17a/",
+  "originalUrl": "https://pd.w.org/2026/10/8006adc17afda9608.46003020.jpeg",
+  "license": "CC0 1.0",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "width": 1024,
+  "height": 768,
+  "changes": "Resized by WordPress; displayed with a crop in previews.",
+  "image": {
+    "src": "/images/library/rolling-green-hills.jpeg",
+    "alt": "A green valley with dense forests, grassy fields, and rolling hills beneath a cloudy sky."
+  },
+  "categories": [
+    "Nature"
+  ],
+  "credit": "Dorian Blanco",
+  "visible": true,
+  "order": 15360
+}

@@ -1,0 +1,14 @@
+title: Photos
+icon: i-lucide-images
+studio:
+  view: media
+  previewUrl: /library/
+  filters:
+    - categories
+    - visible
+  media:
+    kind: image
+    directory: images/library
+    formats: [jpg, jpeg, png, webp, gif]
+    maxBytes: 10485760
+    thumbnailAspectRatio: "4:3"

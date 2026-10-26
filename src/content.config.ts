@@ -11,9 +11,24 @@ const pageFields = {
   description: z.string().min(20).max(200),
 };
 
+const assetFields = {
+  title: z.string().min(2), description: z.string().optional(),
+  categories: z.array(z.string()).default([]), credit: z.string().default(''),
+  visible: z.boolean().default(true), order: z.number().default(0),
+  creator: z.string().optional(), creatorUrl: z.url().optional(), sourceUrl: z.url().optional(),
+  originalUrl: z.url().optional(), license: z.string().optional(), licenseUrl: z.url().optional(),
+  width: z.number().positive().optional(), height: z.number().positive().optional(),
+  changes: z.string().optional(), duration: z.string().optional(), lesson: reference('blog').optional(),
+};
+
 export const collections = {
   pages: defineCollection({
-    loader: glob({ base: './src/content/pages', pattern: '**/*.md' }),
+    // Numeric filename prefixes control Studio order without changing entry IDs or URLs.
+    loader: glob({
+      base: './content/pages',
+      pattern: '**/*.md',
+      generateId: ({ entry }) => entry.replace(/\.md$/, '').split('/').map(part => part.replace(/^\d+\./, '')).join('/'),
+    }),
     schema: z.object({
       ...pageFields,
       // Template-owned pages keep a fixed URL while their content stays editable.
@@ -23,9 +38,11 @@ export const collections = {
     }),
   }),
   blog: defineCollection({
-    loader: glob({ base: './src/content/blog', pattern: '**/*.{md,mdx,mdoc}' }),
+    loader: glob({ base: './content/blog', pattern: '**/*.{md,mdx,mdoc}' }),
     schema: z.object({
       ...pageFields,
+      chapter: z.number().int().min(1).optional(),
+      videos: z.array(reference('videos')).default([]),
       pubDate: z.coerce.date(),
       updatedDate: z.coerce.date().optional(),
       status: z.enum(['draft', 'published']).default('draft'),
@@ -41,8 +58,16 @@ export const collections = {
       path: ['updatedDate'],
     }),
   }),
+  photos: defineCollection({
+    loader: glob({ base: './content', pattern: 'photos/*.json', generateId: ({ entry }) => entry.split('/').pop()!.replace(/\.json$/, '') }),
+    schema: z.object({ ...assetFields, image: media, thumbnail: media.optional() }),
+  }),
+  videos: defineCollection({
+    loader: glob({ base: './content', pattern: 'videos/*.json', generateId: ({ entry }) => entry.split('/').pop()!.replace(/\.json$/, '') }),
+    schema: z.object({ ...assetFields, image: media.optional(), youtubeId: z.string().regex(/^[A-Za-z0-9_-]{11}$/) }),
+  }),
   authors: defineCollection({
-    loader: glob({ base: './src/data/authors', pattern: '**/*.json' }),
+    loader: glob({ base: './content/authors', pattern: '**/*.json' }),
     schema: z.object({
       name: z.string().min(2),
       role: z.string().min(2),
@@ -51,7 +76,7 @@ export const collections = {
     }),
   }),
   categories: defineCollection({
-    loader: glob({ base: './src/data/categories', pattern: '**/*.yml' }),
+    loader: glob({ base: './content/categories', pattern: '**/*.yml' }),
     schema: z.object({
       title: z.string().min(2),
       description: z.string().min(20),

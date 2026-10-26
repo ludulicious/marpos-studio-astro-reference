@@ -1,0 +1,24 @@
+{
+  "title": "Working with images and alt text",
+  "creator": "WordPress.com",
+  "creatorUrl": "https://wordpress.com/",
+  "sourceUrl": "https://wordpress.com/support/wordpress-editor/blocks/image-block/image-caption-alt-text/",
+  "license": "Source-hosted video",
+  "licenseUrl": "https://wordpress.com/support/wordpress-editor/blocks/image-block/image-caption-alt-text/",
+  "width": 480,
+  "height": 360,
+  "changes": "Unmodified YouTube embed from the source lesson. No video file is redistributed.",
+  "description": "Explore WordPress image blocks, captions, and alternative text. Use the surrounding Marpos guide to choose a local photo and describe it for your readers.",
+  "lesson": "write-accessible-image-details",
+  "image": {
+    "src": "/images/library/adding-and-removing-images.jpg",
+    "alt": "Video lesson: Working with images and alt text"
+  },
+  "categories": [
+    "CMS tutorials"
+  ],
+  "credit": "WordPress.com",
+  "visible": true,
+  "order": 5120,
+  "youtubeId": "PV9-0Tc4SlE"
+}

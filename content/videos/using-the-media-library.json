@@ -1,0 +1,24 @@
+{
+  "title": "Using the media library",
+  "creator": "WordPress.org",
+  "creatorUrl": "https://wordpress.org/",
+  "sourceUrl": "https://learn.wordpress.org/lesson/using-the-media-library-2/",
+  "license": "Source-hosted video",
+  "licenseUrl": "https://learn.wordpress.org/lesson/using-the-media-library-2/",
+  "width": 480,
+  "height": 360,
+  "changes": "Unmodified YouTube embed from the source lesson. No video file is redistributed.",
+  "description": "Navigate the WordPress media library, organize uploads, and add useful image details. Follow the written chapter for the corresponding Marpos Studio workflow.",
+  "lesson": "manage-your-media-library",
+  "image": {
+    "src": "/images/library/using-the-media-library.jpg",
+    "alt": "Video lesson: Using the media library"
+  },
+  "categories": [
+    "CMS tutorials"
+  ],
+  "credit": "WordPress.org",
+  "visible": true,
+  "order": 24576,
+  "youtubeId": "_A-Er-XuOtU"
+}

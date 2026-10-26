@@ -1,0 +1,22 @@
+{
+  "title": "The green valley",
+  "creator": "Dorian Blanco",
+  "creatorUrl": "https://wordpress.org/photos/author/dorianblanco/",
+  "sourceUrl": "https://wordpress.org/photos/photo/7966adea8f/",
+  "originalUrl": "https://pd.w.org/2026/10/7966adea8f3a82484.02005504.jpeg",
+  "license": "CC0 1.0",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "width": 768,
+  "height": 1024,
+  "changes": "Resized by WordPress; displayed with a crop in previews.",
+  "image": {
+    "src": "/images/library/the-green-valley.jpeg",
+    "alt": "A sunny green valley with grazing sheep, a small pond, and forested hills under a clear blue sky."
+  },
+  "categories": [
+    "Nature"
+  ],
+  "credit": "Dorian Blanco",
+  "visible": true,
+  "order": 21504
+}

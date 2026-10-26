@@ -1,0 +1,48 @@
+---
+title: "Edit a guide with MDX"
+description: "Combine an editable story with a reusable Astro component, keeping the words, references, and publishing workflow together in Marpos Studio."
+pubDate: "2026-10-26"
+status: "published"
+author: "studio-developers"
+categories: ["astro", "editing"]
+tags: ["Astro", "MDX", "publishing"]
+featured: false
+readingMinutes: 4
+hero: {"src": "/images/library/room-to-grow.jpg", "alt": "Close-up shot of a small potted succulent plant with fleshy green leaves in a white ceramic pot, set on an office desk with a softly blurred office interior in the background."}
+relatedPosts: ["your-first-edit", "review-before-publishing"]
+chapter: 8
+videos: []
+---
+
+import WorkflowNote from '../../src/components/WorkflowNote.astro';
+
+export const reviewSteps = [
+  'Read the story in its real page layout.',
+  'Check the author, topics, links, and image description.',
+  'Review the saved change before publishing.',
+];
+
+Most stories only need words, headings, images, and links. Sometimes a reusable component helps readers pause at the right moment: a useful reminder, a product detail, or a small worked example.
+
+MDX lets those elements live alongside the story. This article imports an Astro component and supplies its heading and content from the document itself.
+
+<WorkflowNote title="A small review routine">
+  <p>Make room for these {reviewSteps.length} checks before publishing:</p>
+  <ol>
+    {reviewSteps.map(step => <li>{step}</li>)}
+  </ol>
+</WorkflowNote>
+
+## Keep the content in one place
+
+The title, description, publication date, author, topics, and related stories use the same fields as the Markdown chapters in this manual. Change those details in Studio and check that the byline, topic links, and related stories update together.
+
+The story opens in Studio's source editor so its imports, expressions, and components stay intact. Try changing the reminder heading, editing a review step, or adding a paragraph. Preview the real page, then save or discard the edit and check the result again.
+
+## Check the complete journey
+
+Follow [your first content edit](/blog/your-first-edit/) for a short editing exercise. Once the page reads well, [make review part of publishing](/blog/review-before-publishing/) and confirm that the published version reaches the live website.
+
+![Close-up shot of a small potted succulent plant with fleshy green leaves in a white ceramic pot, set on an office desk with a softly blurred office interior in the background.](/images/library/room-to-grow.jpg)
+
+The component provides the presentation; the story provides the words. Both travel through the same repository and Astro build.

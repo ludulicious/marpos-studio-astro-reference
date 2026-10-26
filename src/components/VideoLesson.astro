@@ -1,0 +1,23 @@
+---
+import type { MediaAsset } from '../lib/media';
+import { sitePath } from '../lib/urls';
+interface Props { video: MediaAsset }
+const { video } = Astro.props;
+---
+<figure class="video-lesson">
+ <div class="video-stage" data-video-stage data-embed={video.data.embedUrl} data-title={video.data.title}>
+  <img src={sitePath(video.data.src)} alt={video.data.alt} width={video.data.width} height={video.data.height} loading="lazy" />
+  <button type="button" class="video-play" aria-label={`Play ${video.data.title}`}>▶ <span>Watch lesson · {video.data.duration ?? 'CMS tutorial'}</span></button>
+ </div>
+ <figcaption><strong>{video.data.title}</strong><p>{video.data.description}</p><span>WordPress tutorial by {video.data.creator} · <a href={video.data.sourceUrl}>Original lesson & written guide</a> · {video.data.licenseUrl ? <a href={video.data.licenseUrl}>{video.data.license}</a> : video.data.license}</span><p class="meta">Loads an external YouTube player when you press play. Captions are available in the player.</p></figcaption>
+</figure>
+<script>
+ document.querySelectorAll<HTMLElement>('[data-video-stage]').forEach(stage => {
+  stage.querySelector('button')?.addEventListener('click', () => {
+   const iframe = document.createElement('iframe');
+   iframe.src = stage.dataset.embed!; iframe.title = stage.dataset.title!;
+   iframe.allow = 'fullscreen; picture-in-picture'; iframe.allowFullscreen = true;
+   stage.replaceChildren(iframe); iframe.focus();
+  });
+ });
+</script>

@@ -1,0 +1,22 @@
+{
+  "title": "Still water",
+  "creator": "Kamran Abdul Aziz",
+  "creatorUrl": "https://wordpress.org/photos/author/ekamran/",
+  "sourceUrl": "https://wordpress.org/photos/photo/6036adc5de/",
+  "originalUrl": "https://pd.w.org/2026/10/6036adc5de99629c2.56986527.jpg",
+  "license": "CC0 1.0",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "width": 1024,
+  "height": 768,
+  "changes": "Resized by WordPress; displayed with a crop in previews.",
+  "image": {
+    "src": "/images/library/still-water.jpg",
+    "alt": "A calm lake surrounded by lush green hills and dense forests under a clear, hazy sky."
+  },
+  "categories": [
+    "Nature"
+  ],
+  "credit": "Kamran Abdul Aziz",
+  "visible": true,
+  "order": 18432
+}
