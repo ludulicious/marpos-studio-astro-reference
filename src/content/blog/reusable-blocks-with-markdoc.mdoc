@@ -1,0 +1,43 @@
+---
+title: "Use reusable blocks without writing code"
+description: "Add a useful reminder to an ordinary story with Markdoc, keeping the component setup separate from the words you want to publish."
+pubDate: "2026-10-26"
+status: "published"
+author: "studio-editorial"
+categories: ["editing", "astro"]
+tags: ["Markdoc", "content editing"]
+featured: false
+readingMinutes: 3
+hero: {"src": "/images/writing.jpg", "alt": "A textured blue and turquoise gradient"}
+relatedPosts: ["your-first-edit", "richer-stories-with-mdx"]
+---
+
+A story should be comfortable to write. Headings, paragraphs, and lists cover most of the work. When you need a reusable block, a short named tag can give those words a familiar place on the page.
+
+{% callout title="Before you publish" %}
+
+Take a moment to check the complete story:
+
+- Read the title and opening paragraph together.
+- Check the author, topics, and image description.
+- Follow the links a reader might use next.
+
+**A little review makes the next edit easier.**
+
+{% /callout %}
+
+## Edit the words visually
+
+In Marpos Studio, open this story and keep the visual editor selected. Change this paragraph, format a word in bold, or add another check inside the callout. The component stays in place while the text remains editable.
+
+Use the callout's **Edit properties** button to change its title in source. Switch back to the visual editor, preview the page, and save the edit. Reopen the story to check that the block and its words are still there.
+
+## Let the website handle presentation
+
+The website connects the callout tag to a reusable Astro component. Authors can focus on the content without adding imports or JavaScript to the story.
+
+Compare this with [the MDX example](/blog/richer-stories-with-mdx/), which exposes imports and expressions. Both approaches use the same author, topic, related-story, preview, and publishing fields.
+
+![A textured violet and coral gradient](/images/review.jpg)
+
+Start with [your first content edit](/blog/your-first-edit/) if you want to practise the full workflow before publishing.

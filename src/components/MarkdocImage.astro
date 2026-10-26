@@ -1,0 +1,6 @@
+---
+import { sitePath } from '../lib/urls';
+interface Props { src: string; alt?: string; title?: string }
+const { src, alt = '', title } = Astro.props;
+---
+<img src={sitePath(src)} alt={alt} title={title} loading="lazy" />

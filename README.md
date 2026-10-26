@@ -17,7 +17,7 @@ npm run dev
 
 Open the address Astro prints, normally `http://localhost:4321`. Run `npm run check` for Astro/TypeScript diagnostics and `npm run build` for a static production build. `npm run preview` serves the built version, which excludes draft stories.
 
-Astro is pinned to 6.4.8, the release used for this reference's verification. The blog includes Markdown and MDX, with `@astrojs/mdx` pinned to 5.0.0. Studio edits MDX stories in its source editor to preserve imports, JSX and expressions. This project has its own package manifest and lockfile; it does not add dependencies to Studio's desktop app.
+Astro is pinned to 6.4.8, the release used for this reference's verification. The blog includes Markdown, MDX and Markdoc, with `@astrojs/mdx` pinned to 5.0.0. Studio edits MDX stories in its source editor to preserve imports, JSX and expressions. This project has its own package manifest and lockfile; it does not add dependencies to Studio's desktop app.
 
 ## Add to Marpos Studio through GitHub
 
@@ -37,11 +37,11 @@ For local-only editing, clone the repository, run `npm ci`, then choose **Open l
 | Collection | Source | Reader-facing result |
 | --- | --- | --- |
 | Pages | `src/content/pages/**/*.md` | Home at `/`, About at `/about/`, Journal at `/blog/`, Contributors at `/team/`, Topics at `/topics/`, new pages at `/<id>/` |
-| Blog | `src/content/blog/*.{md,mdx}` | Journal at `/blog/`, individual stories at `/blog/<id>/` |
+| Blog | `src/content/blog/*.{md,mdx,mdoc}` | Journal at `/blog/`, individual stories at `/blog/<id>/` |
 | Authors | `src/data/authors/*.json` | Shared bylines, contributor profiles and story links at `/team/` |
 | Categories | `src/data/categories/*.yml` | Topic names, descriptions, order and story links at `/topics/` |
 
-There are 17 initial records: five pages, seven stories, two authors and three topics. Six stories are published and one is a draft. The home page lists featured stories. All journal, contributor, topic and related-story lists filter drafts out of production. RSS includes only published stories in both development and production.
+There are 18 initial records: five pages, eight stories, two authors and three topics. Seven stories are published and one is a draft. The home page lists featured stories. All journal, contributor, topic and related-story lists filter drafts out of production. RSS includes only published stories in both development and production.
 
 The headings, descriptions, introductions and optional hero/call-to-action content for the Journal, Contributors and Topics pages are editable in **Pages**. Their documents live in `pages/blog.md`, `pages/team.md` and `pages/topics.md` beneath `src/content/`. These are direct page entries with no extra folder level. Their `path` fields keep the template routes fixed. Author profiles remain in **Authors**, topic records remain in **Categories**, and the Astro templates render those lists below each page's editable story.
 
@@ -50,6 +50,12 @@ The headings, descriptions, introductions and optional hero/call-to-action conte
 `studio.preview.json` maps the home page to `/` and author/topic records to their shared pages. New authors and topics inherit those shared preview destinations. Studio infers `/blog` from the dynamic Astro story route, and new ordinary pages use the root route. Renaming or moving the specially mapped home page also requires updating its mapping and home-page query.
 
 Images live in `public/images/`. The `hero` field stores `{ src, alt }`, which Studio recognises as media; use `/images/...` paths when selecting or uploading. Markdown body images exercise the story editor's image support separately.
+
+## Markdoc example
+
+Open **Use reusable blocks without writing code** in **Blog**, or visit `/blog/reusable-blocks-with-markdoc/`. Its `.mdoc` file uses a `{% callout title="Before you publish" %}` block with ordinary Markdown inside. The visual editor keeps that body editable and preserves the tag attributes. **Edit properties** opens the tag in source; returning to visual mode preserves the edited title. Conditional expressions and other unsupported constructs remain protected source blocks while surrounding prose stays editable.
+
+The official `@astrojs/markdoc` integration is pinned to 1.0.0 for Astro 6. `markdoc.config.mjs` registers the callout component and its required title attribute. Link and image components apply the GitHub Pages base path. Astro renders Markdoc collection entries from `.mdoc`; simply adding Markdoc tags to an ordinary `.md` file does not enable Markdoc rendering in Astro.
 
 ## MDX example
 

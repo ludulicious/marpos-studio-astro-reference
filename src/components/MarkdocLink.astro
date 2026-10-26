@@ -1,0 +1,6 @@
+---
+import { sitePath } from '../lib/urls';
+interface Props { href: string; title?: string }
+const { href, title } = Astro.props;
+---
+<a href={sitePath(href)} title={title}><slot /></a>

@@ -23,7 +23,7 @@ export const collections = {
     }),
   }),
   blog: defineCollection({
-    loader: glob({ base: './src/content/blog', pattern: '**/*.{md,mdx}' }),
+    loader: glob({ base: './src/content/blog', pattern: '**/*.{md,mdx,mdoc}' }),
     schema: z.object({
       ...pageFields,
       pubDate: z.coerce.date(),

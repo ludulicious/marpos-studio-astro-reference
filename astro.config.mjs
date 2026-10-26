@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
+import markdoc from '@astrojs/markdoc';
 import { unified } from '@astrojs/markdown-remark';
 import markdownBase from './src/lib/markdown-base.mjs';
 
@@ -10,6 +11,6 @@ export default defineConfig({
   site: 'https://ludulicious.github.io',
   base,
   trailingSlash: 'always',
-  integrations: [sitemap(), mdx({ rehypePlugins: [[markdownBase, { base }]] })],
+  integrations: [sitemap(), mdx({ rehypePlugins: [[markdownBase, { base }]] }), markdoc()],
   markdown: { processor: unified({ rehypePlugins: [[markdownBase, { base }]] }) },
 });
