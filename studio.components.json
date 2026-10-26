@@ -16,8 +16,7 @@
             "title": "Heading",
             "description": "A short heading for this reminder.",
             "minLength": 1,
-            "maxLength": 120,
-            "default": "Before you publish"
+            "maxLength": 120
           },
           "tone": {
             "type": "string",

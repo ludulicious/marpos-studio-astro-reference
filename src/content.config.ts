@@ -23,7 +23,7 @@ const assetFields = {
 
 export const collections = {
   pages: defineCollection({
-    // Numeric filename prefixes control Studio order without changing entry IDs or URLs.
+    // Keep IDs stable while numeric filename prefixes control Studio's page order.
     loader: glob({
       base: './content/pages',
       pattern: '**/*.md',
