@@ -17,7 +17,7 @@ npm run dev
 
 Open the address Astro prints, normally `http://localhost:4321`. Run `npm run check` for Astro/TypeScript diagnostics and `npm run build` for a static production build. `npm run preview` serves the built version, which excludes draft stories.
 
-Astro is pinned to 6.4.8, the release used for this reference's verification. MDX is deliberately absent because Studio currently edits Markdown, YAML and JSON. This project has its own package manifest and lockfile; it does not add dependencies to Studio's desktop app.
+Astro is pinned to 6.4.8, the release used for this reference's verification. The blog includes Markdown and MDX, with `@astrojs/mdx` pinned to 5.0.0. Studio edits MDX stories in its source editor to preserve imports, JSX and expressions. This project has its own package manifest and lockfile; it does not add dependencies to Studio's desktop app.
 
 ## Add to Marpos Studio through GitHub
 
@@ -37,11 +37,11 @@ For local-only editing, clone the repository, run `npm ci`, then choose **Open l
 | Collection | Source | Reader-facing result |
 | --- | --- | --- |
 | Pages | `src/content/pages/**/*.md` | Home at `/`, About at `/about/`, Journal at `/blog/`, Contributors at `/team/`, Topics at `/topics/`, new pages at `/<id>/` |
-| Blog | `src/content/blog/*.md` | Journal at `/blog/`, individual stories at `/blog/<id>/` |
+| Blog | `src/content/blog/*.{md,mdx}` | Journal at `/blog/`, individual stories at `/blog/<id>/` |
 | Authors | `src/data/authors/*.json` | Shared bylines, contributor profiles and story links at `/team/` |
 | Categories | `src/data/categories/*.yml` | Topic names, descriptions, order and story links at `/topics/` |
 
-There are 16 initial records: five pages, six stories, two authors and three topics. Five stories are published and one is a draft. The home page lists featured stories. All journal, contributor, topic and related-story lists filter drafts out of production. RSS includes only published stories in both development and production.
+There are 17 initial records: five pages, seven stories, two authors and three topics. Six stories are published and one is a draft. The home page lists featured stories. All journal, contributor, topic and related-story lists filter drafts out of production. RSS includes only published stories in both development and production.
 
 The headings, descriptions, introductions and optional hero/call-to-action content for the Journal, Contributors and Topics pages are editable in **Pages**. Their documents live in `pages/blog.md`, `pages/team.md` and `pages/topics.md` beneath `src/content/`. These are direct page entries with no extra folder level. Their `path` fields keep the template routes fixed. Author profiles remain in **Authors**, topic records remain in **Categories**, and the Astro templates render those lists below each page's editable story.
 
@@ -50,6 +50,12 @@ The headings, descriptions, introductions and optional hero/call-to-action conte
 `studio.preview.json` maps the home page to `/` and author/topic records to their shared pages. New authors and topics inherit those shared preview destinations. Studio infers `/blog` from the dynamic Astro story route, and new ordinary pages use the root route. Renaming or moving the specially mapped home page also requires updating its mapping and home-page query.
 
 Images live in `public/images/`. The `hero` field stores `{ src, alt }`, which Studio recognises as media; use `/images/...` paths when selecting or uploading. Markdown body images exercise the story editor's image support separately.
+
+## MDX example
+
+Open **Give your stories room for richer content** in **Blog**, or visit `/blog/richer-stories-with-mdx/`. Its source is `src/content/blog/richer-stories-with-mdx.mdx`. It imports `src/components/WorkflowNote.astro`, exports a list of review steps, and renders the list and its count using JSX and expressions. Markdown links and images also exercise GitHub Pages base-path handling.
+
+In Studio, edit the frontmatter in **Details** and the MDX in the story’s source editor. Change the component heading or a review step, preview, save, reopen, and discard a temporary edit to verify the original imports and JSX survive. Publish through the normal GitHub workflow to check the rendered component on the live site. The collection still creates ordinary Markdown stories by default; both file types share its schema and routes.
 
 ## Suggested acceptance session
 
@@ -62,7 +68,7 @@ Images live in `public/images/`. The `hero` field stores `{ src, alt }`, which S
 7. Temporarily change a story in page preview, then discard it. Confirm the saved page returns. Save another edit and confirm it survives reopening. With no unsaved editor changes, edit a content file or schema in your code editor and check Studio's local refresh.
 8. With this repository added through GitHub, check review, online draft saving, reopening the draft, and publishing. Verify that only the intended content and media changes reach the default branch. Publishing to `main` automatically triggers the GitHub Pages workflow. Wait for its successful deployment, then check the live page.
 
-A production build verifies Astro rendering and content contracts; it does not prove the whole desktop editing workflow. The steps above are the manual acceptance session for that workflow. Remote loaders, MDX, Vue islands and SSR adapters are not covered by this static reference.
+A production build verifies Astro rendering and content contracts; it does not prove the whole desktop editing workflow. The steps above are the manual acceptance session for that workflow. Remote loaders, Vue islands and SSR adapters are not covered by this static reference.
 
 ## GitHub Pages and end-to-end publishing
 

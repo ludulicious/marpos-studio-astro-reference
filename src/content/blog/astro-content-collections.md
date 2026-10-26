@@ -39,4 +39,4 @@ Required fields should represent information the website actually needs. Optiona
 
 Astro content IDs and public URLs are different concepts. This site maps the home page to `/` and shared author and topic records to the pages where readers can see them. New journal entries use `/blog/<id>/`.
 
-Use Markdown for editable stories in this reference. MDX and custom remote loaders are outside Studio’s current Astro editing support.
+Use Markdown for ordinary stories and MDX when a story needs reusable components. [Give your stories room for richer content](/blog/richer-stories-with-mdx/) demonstrates an imported Astro component and expressions, with the story preserved in Studio’s source editor. Custom remote loaders remain outside this reference.
