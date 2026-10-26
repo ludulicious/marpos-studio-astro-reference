@@ -36,12 +36,14 @@ For local-only editing, clone the repository, run `npm ci`, then choose **Open l
 
 | Collection | Source | Reader-facing result |
 | --- | --- | --- |
-| Pages | `src/content/pages/*.md` | Home at `/`, About at `/about/`, new pages at `/<id>/` |
+| Pages | `src/content/pages/**/*.md` | Home at `/`, About at `/about/`, Journal at `/blog/`, Contributors at `/team/`, Topics at `/topics/`, new pages at `/<id>/` |
 | Blog | `src/content/blog/*.md` | Journal at `/blog/`, individual stories at `/blog/<id>/` |
 | Authors | `src/data/authors/*.json` | Shared bylines, contributor profiles and story links at `/team/` |
 | Categories | `src/data/categories/*.yml` | Topic names, descriptions, order and story links at `/topics/` |
 
-There are 13 initial records: two pages, six stories, two authors and three topics. Five stories are published and one is a draft. The home page lists featured stories. All journal, contributor, topic and related-story lists filter drafts out of production. RSS includes only published stories in both development and production.
+There are 16 initial records: five pages, six stories, two authors and three topics. Five stories are published and one is a draft. The home page lists featured stories. All journal, contributor, topic and related-story lists filter drafts out of production. RSS includes only published stories in both development and production.
+
+The headings, descriptions, introductions and optional hero/call-to-action content for the Journal, Contributors and Topics pages are editable in **Pages**. Their documents live in `pages/blog/index.md`, `pages/team/index.md` and `pages/topics/index.md` beneath `src/content/`. Their index filenames keep their template routes fixed. Author profiles remain in **Authors**, topic records remain in **Categories**, and the Astro templates render those lists below each page's editable story.
 
 `src/content.config.ts` is the native Astro contract. It includes required/optional fields, dates, a status enum, tags, booleans, bounded numbers, nested image and call-to-action objects, scalar and array collection references, and a cross-field date refinement. Website templates actually consume these fields; they are not just editor fixtures.
 

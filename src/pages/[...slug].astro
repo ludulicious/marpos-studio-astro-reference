@@ -4,7 +4,7 @@ import { getCollection, render } from 'astro:content';
 import Page from '../layouts/Page.astro';
 export async function getStaticPaths() {
   const pages = await getCollection('pages');
-  return pages.filter(page => page.id !== 'home').map(page => ({ params: {slug: page.id}, props: {page} }));
+  return pages.filter(page => !['home', 'team', 'topics', 'blog'].includes(page.id)).map(page => ({ params: {slug: page.id}, props: {page} }));
 }
 const { page } = Astro.props;
 const { Content } = await render(page);

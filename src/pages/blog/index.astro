@@ -1,12 +1,18 @@
 ---
-import { getCollection } from 'astro:content';
+import { sitePath } from '../../lib/urls';
+import { getCollection, getEntry, render } from 'astro:content';
 import Page from '../../layouts/Page.astro';
 import PostList from '../../components/PostList.astro';
-const posts = (await getCollection('blog', ({data}) => import.meta.env.DEV || data.status === 'published'))
-  .sort((a,b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const page = await getEntry('pages', 'blog');
+if (!page) throw new Error('The blog page content is missing.');
+const { Content } = await render(page);
+const posts = (await getCollection('blog', ({data}) => import.meta.env.DEV || data.status === 'published')).sort((a,b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
 ---
-<Page title="The Marpos Studio journal" description="Practical guides for a calmer website content workflow, from your first edit to a reviewed publication.">
-  <h1>The journal</h1>
-  <p>Thoughtful content starts with a workflow you can trust.</p>
+<Page title={page.data.title} description={page.data.description} image={page.data.hero?.src}>
+  <h1>{page.data.title}</h1>
+  <p>{page.data.description}</p>
+  {page.data.hero && <img src={sitePath(page.data.hero.src)} alt={page.data.hero.alt} width="720" height="360" />}
+  <Content />
   <PostList posts={posts} />
+  {page.data.callToAction && <p><a href={sitePath(page.data.callToAction.href)}>{page.data.callToAction.label} →</a></p>}
 </Page>

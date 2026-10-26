@@ -1,14 +1,21 @@
 ---
 import { sitePath } from '../lib/urls';
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry, render } from 'astro:content';
 import Page from '../layouts/Page.astro';
+const page = await getEntry('pages', 'topics');
+if (!page) throw new Error('The topics page content is missing.');
+const { Content } = await render(page);
 const categories = (await getCollection('categories')).sort((a,b) => a.data.order - b.data.order);
 const posts = await getCollection('blog', ({data}) => import.meta.env.DEV || data.status === 'published');
 ---
-<Page title="Explore the topics" description="Find practical Marpos Studio guidance on content editing, editorial workflows, and Astro websites.">
-  <h1>Explore the topics</h1>
+<Page title={page.data.title} description={page.data.description} image={page.data.hero?.src}>
+  <h1>{page.data.title}</h1>
+  <p>{page.data.description}</p>
+  {page.data.hero && <img src={sitePath(page.data.hero.src)} alt={page.data.hero.alt} width="720" height="360" />}
+  <Content />
   {categories.map(category => <section id={category.id}>
     <h2>{category.data.title}</h2><p>{category.data.description}</p>
     <ul>{posts.filter(post => post.data.categories.some(item => item.id === category.id)).map(post => <li><a href={sitePath(`/blog/${post.id}/`)}>{post.data.title}</a></li>)}</ul>
   </section>)}
+  {page.data.callToAction && <p><a href={sitePath(page.data.callToAction.href)}>{page.data.callToAction.label} →</a></p>}
 </Page>
