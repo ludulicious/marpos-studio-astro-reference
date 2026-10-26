@@ -54,9 +54,9 @@ Images live in `public/images/`. The `hero` field stores `{ src, alt }`, which S
 
 ## Markdoc example
 
-Open **Use reusable blocks without writing code** in **Blog**, or visit `/blog/reusable-blocks-with-markdoc/`. Its `.mdoc` file uses a `{% callout title="Before you publish" %}` block with ordinary Markdown inside. The visual editor keeps that body editable and preserves the tag attributes. **Edit properties** opens the tag in source; returning to visual mode preserves the edited title. Conditional expressions and other unsupported constructs remain protected source blocks while surrounding prose stays editable.
+Open **Use reusable blocks without writing code** in **Blog**, or visit `/blog/reusable-blocks-with-markdoc/`. Its `.mdoc` file uses a `{% callout title="Before you publish" %}` block with ordinary Markdown inside. The visual editor keeps that body editable and preserves the tag attributes. **Insert component → Callout** adds a block from the project’s `studio.components.json` definition. **Edit properties** opens a form for its heading, style and compact spacing, with required-field validation and undo support. The same definition supplies the Astro Markdoc tag’s attributes. Conditional expressions and other unsupported constructs remain protected source blocks while surrounding prose stays editable.
 
-The official `@astrojs/markdoc` integration is pinned to 1.0.0 for Astro 6. `markdoc.config.mjs` registers the callout component and its required title attribute. Link and image components apply the GitHub Pages base path. Astro renders Markdoc collection entries from `.mdoc`; simply adding Markdoc tags to an ordinary `.md` file does not enable Markdoc rendering in Astro.
+The official `@astrojs/markdoc` integration is pinned to 1.0.0 for Astro 6. `markdoc.config.mjs` registers the callout component and derives its attributes from the editor definition. Link and image components apply the GitHub Pages base path. Astro renders Markdoc collection entries from `.mdoc`; simply adding Markdoc tags to an ordinary `.md` file does not enable Markdoc rendering in Astro.
 
 ## MDX example
 

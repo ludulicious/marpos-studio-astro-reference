@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "components": [
+    {
+      "name": "callout",
+      "syntax": "markdoc",
+      "label": "Callout",
+      "description": "A useful reminder, success message, or warning within a story.",
+      "icon": "i-lucide-box",
+      "component": "src/components/WorkflowNote.astro",
+      "props": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Heading",
+            "description": "A short heading for this reminder.",
+            "minLength": 1,
+            "maxLength": 120,
+            "default": "Before you publish"
+          },
+          "tone": {
+            "type": "string",
+            "title": "Style",
+            "enum": [
+              "info",
+              "success",
+              "warning"
+            ],
+            "default": "info"
+          },
+          "compact": {
+            "type": "boolean",
+            "title": "Compact spacing",
+            "default": false
+          }
+        },
+        "required": [
+          "title"
+        ],
+        "additionalProperties": false
+      },
+      "slots": {
+        "default": {
+          "label": "Reminder content",
+          "format": "markdown",
+          "default": "Write a helpful reminder here.\n\n- Add a useful check.\n- Explain the next step."
+        }
+      }
+    }
+  ]
+}
