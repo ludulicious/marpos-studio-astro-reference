@@ -1,4 +1,5 @@
 ---
+import OptimizedImage from '../../components/OptimizedImage.astro';
 import Page from '../../layouts/Page.astro';
 import { getMedia } from '../../lib/media';
 import CollectionSearch from '../../components/CollectionSearch.astro';
@@ -12,7 +13,7 @@ const videos = media.filter(item => item.data.kind === 'video');
  <div class="library-note"><p><strong>Made to be used.</strong> The sample photos are local files released under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>. Every asset has its source, credit, and license. Videos are embedded from official WordPress learning resources with attribution.</p><a href={sitePath('/blog/manage-your-media-library/')}>How to use this library ↗</a></div>
  <CollectionSearch placeholder="Search images, videos, or creators…" filters={[...new Set(media.map(item => item.data.category))]} />
  <div class="media-grid">{media.map(item => <article class="media-card" data-search-item data-category={item.data.category} data-search={`${item.data.title} ${item.data.kind} ${item.data.category} ${item.data.alt} ${item.data.creator}`.toLowerCase()}>
-  <a class="media-preview" href={sitePath(`/library/${item.id}/`)}><img src={sitePath(item.data.previewSrc ?? item.data.src)} alt={item.data.alt} width={item.data.width} height={item.data.height} loading="lazy" />{item.data.kind === 'video' && <span class="video-badge">▶ {item.data.duration ?? 'Video'}</span>}</a>
+  <a class="media-preview" href={sitePath(`/library/${item.id}/`)}><OptimizedImage src={item.data.previewSrc ?? item.data.src} alt={item.data.alt} width={item.data.width} height={item.data.height} widths={[320, 480, 640, 960]} sizes="(max-width: 414px) calc(100vw - 40px), (max-width: 768px) 45vw, 360px" loading="lazy" />{item.data.kind === 'video' && <span class="video-badge">▶ {item.data.duration ?? 'Video'}</span>}</a>
   <p class="meta">{item.data.category} · {item.data.license}</p><h2><a href={sitePath(`/library/${item.id}/`)}>{item.data.title}</a></h2><p class="media-credit">By {item.data.creator}</p>
  </article>)}</div>
  <p class="source-note">Photography from the <a href="https://wordpress.org/photos/">WordPress Photo Directory</a>. Open an asset for its original source and reuse details.</p>

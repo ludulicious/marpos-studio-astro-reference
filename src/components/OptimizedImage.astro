@@ -1,0 +1,35 @@
+---
+import { Image, Picture } from 'astro:assets';
+import type { HTMLAttributes } from 'astro/types';
+import { imageSource } from '../lib/images';
+
+interface Props extends Omit<HTMLAttributes<'img'>, 'src' | 'width' | 'height'> {
+  src: string;
+  alt: string;
+  width?: number | string;
+  height?: number | string;
+  widths?: number[];
+  sizes?: string;
+  picture?: boolean;
+}
+const {
+  src, alt, width, height, picture = false,
+  widths = [320, 640, 960, 1280, 1600],
+  sizes = '(max-width: 768px) calc(100vw - 40px), 720px',
+  ...attributes
+} = Astro.props;
+const source = await imageSource(src);
+const local = typeof source !== 'string';
+const sourceProps = typeof source === 'string' ? { src: source, width: Number(width) || 1024, height: Number(height) || 768 } : { src: source };
+// Local metadata supplies the real aspect ratio, including custom thumbnails.
+const imageWidth = local ? Math.min(Number(width) || 1600, source.width) : Number(width) || 1024;
+const imageHeight = local ? Math.round(imageWidth * source.height / source.width) : Number(height) || 768;
+const responsiveWidths = [...new Set([...widths.filter(value => value <= imageWidth), imageWidth])].sort((a, b) => a - b);
+---
+{picture ? (
+  <Picture {...sourceProps} alt={alt} width={imageWidth} height={imageHeight}
+    widths={responsiveWidths} sizes={sizes} formats={['avif', 'webp']} fallbackFormat="jpg" {...attributes} />
+) : (
+  <Image {...sourceProps} alt={alt} width={imageWidth} height={imageHeight}
+    widths={responsiveWidths} sizes={sizes} format="webp" {...attributes} />
+)}

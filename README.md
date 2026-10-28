@@ -52,6 +52,15 @@ The headings, descriptions, introductions and optional hero/call-to-action conte
 
 Images live in `public/images/`. The `hero` field stores `{ src, alt }`, which Studio recognises as media; use `/images/...` paths when selecting or uploading. Markdown body images exercise the story editor's image support separately.
 
+### Image optimization
+
+`src/components/OptimizedImage.astro` uses Astro's `Image` for cards and video posters, and `Picture` for heroes, full photos, and Markdoc body images. It generates responsive widths, WebP images, and AVIF/WebP sources with JPEG fallbacks for pictures. Local metadata supplies the aspect ratio and caps generated widths at the original dimensions. The home hero loads eagerly; other images use Astro's lazy-loading default.
+
+Studio's `/images/...` paths stay editable. `src/lib/images.ts` imports files from `public/images/` into Astro's asset pipeline; originals also remain available at their public URLs for downloads and copied image paths. Markdown and MDX body images are resolved to local imports by `src/lib/remark-images.mjs`, then optimized by Astro's native Markdown image support. Markdoc delegates to the shared image component. New uploads are discovered by Vite's image glob without maintaining a separate image list.
+
+Optimized variants are generated at build time under `_astro/`, including the configured GitHub Pages base path. YouTube fallback posters are authorized through the narrow `i.ytimg.com/vi/**` remote pattern; builds that use these remote fallbacks need network access. Social sharing metadata and original download links continue to use the original images.
+
+
 ## Markdoc example
 
 Open **Use reusable blocks without writing code** in **Blog**, or visit `/blog/reusable-blocks-with-markdoc/`. Its `.mdoc` file uses a `{% callout title="Before you publish" %}` block with ordinary Markdown inside. The visual editor keeps that body editable and preserves the tag attributes. **Insert component → Callout** adds a block from the project’s `studio.components.json` definition. **Edit properties** opens a form for its heading, style and compact spacing, with required-field validation and undo support. The same definition supplies the Astro Markdoc tag’s attributes. Conditional expressions and other unsupported constructs remain protected source blocks while surrounding prose stays editable.

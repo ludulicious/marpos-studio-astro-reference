@@ -1,4 +1,5 @@
 ---
+import OptimizedImage from '../components/OptimizedImage.astro';
 import { sitePath } from '../lib/urls';
 import { getEntry, getCollection, render } from 'astro:content';
 import Page from '../layouts/Page.astro';
@@ -13,8 +14,8 @@ const media = await getMedia();
 const images = ['light-through-the-trees','the-bright-meeting-room','reflections-at-the-stepwell'].map(id => media.find(item => item.id === id)!);
 ---
 <Page title={page.data.title} description={page.data.description} image={page.data.hero?.src}>
- <section class="home-opening"><div><p class="edition">A field guide to your content</p><h1>{page.data.title}</h1><p class="lead">{page.data.description}</p>{page.data.callToAction && <a class="button" href={sitePath(page.data.callToAction.href)}>{page.data.callToAction.label} <span aria-hidden="true">↗</span></a>}<p class="quiet-link"><a href={sitePath('/library/')}>Or explore the media library →</a></p></div><figure>{page.data.hero && <img src={sitePath(page.data.hero.src)} alt={page.data.hero.alt} width="1200" height="900" fetchpriority="high" />}<figcaption>A space to learn. A little room to create.</figcaption></figure></section>
+ <section class="home-opening"><div><p class="edition">A field guide to your content</p><h1>{page.data.title}</h1><p class="lead">{page.data.description}</p>{page.data.callToAction && <a class="button" href={sitePath(page.data.callToAction.href)}>{page.data.callToAction.label} <span aria-hidden="true">↗</span></a>}<p class="quiet-link"><a href={sitePath('/library/')}>Or explore the media library →</a></p></div><figure>{page.data.hero && <OptimizedImage picture src={page.data.hero.src} alt={page.data.hero.alt} width="1200" height="900" sizes="(max-width: 768px) calc(100vw - 40px), 560px" loading="eager" fetchpriority="high" />}<figcaption>A space to learn. A little room to create.</figcaption></figure></section>
  <section class="home-manual"><div class="section-heading"><div><h2>From first edit to published.</h2><p>Work through the essentials, one useful chapter at a time.</p></div><a href={sitePath('/blog/')}>All chapters →</a></div><PostList posts={posts.slice(0,3)} /></section>
- <section class="home-library"><div class="section-heading"><div><h2>A library with a point of view.</h2><p>Real photography and CMS lessons, with clear reuse details.</p></div><a href={sitePath('/library/')}>Browse all {media.length} assets →</a></div><div class="photo-strip">{images.map(item => <a href={sitePath(`/library/${item.id}/`)}><img src={sitePath(item.data.src)} alt={item.data.alt} width={item.data.width} height={item.data.height} loading="lazy" /><span>{item.data.title} ↗</span></a>)}</div></section>
+ <section class="home-library"><div class="section-heading"><div><h2>A library with a point of view.</h2><p>Real photography and CMS lessons, with clear reuse details.</p></div><a href={sitePath('/library/')}>Browse all {media.length} assets →</a></div><div class="photo-strip">{images.map(item => <a href={sitePath(`/library/${item.id}/`)}><OptimizedImage picture src={item.data.src} alt={item.data.alt} width={item.data.width} height={item.data.height} sizes="(max-width: 768px) calc(100vw - 40px), 360px" loading="lazy" /><span>{item.data.title} ↗</span></a>)}</div></section>
  <div class="closing-note"><Content /></div>
 </Page>

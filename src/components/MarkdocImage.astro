@@ -1,6 +1,6 @@
 ---
-import { sitePath } from '../lib/urls';
+import OptimizedImage from './OptimizedImage.astro';
 interface Props { src: string; alt?: string; title?: string }
 const { src, alt = '', title } = Astro.props;
 ---
-<img src={sitePath(src)} alt={alt} title={title} loading="lazy" />
+<OptimizedImage picture src={src} alt={alt} title={title} loading="lazy" />

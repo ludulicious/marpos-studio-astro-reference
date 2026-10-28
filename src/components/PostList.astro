@@ -1,4 +1,5 @@
 ---
+import OptimizedImage from './OptimizedImage.astro';
 import { sitePath } from '../lib/urls';
 import type { CollectionEntry } from 'astro:content';
 interface Props { posts: CollectionEntry<'blog'>[] }
@@ -8,6 +9,6 @@ const { posts } = Astro.props;
 {posts.map(post => <li data-search-item data-search={`${post.data.title} ${post.data.description} ${post.data.tags.join(' ')}`.toLowerCase()}>
   <span class="chapter-number" aria-label={`Chapter ${post.data.chapter ?? ''}`}>{post.data.chapter ? String(post.data.chapter).padStart(2,'0') : '—'}</span>
   <div><p class="meta">{post.data.readingMinutes} min read{post.data.videos.length > 0 && ' · Includes video'}{post.data.status === 'draft' && ' · Draft preview'}</p><h2><a href={sitePath(`/blog/${post.id}/`)}>{post.data.title}</a></h2><p>{post.data.description}</p></div>
-  {post.data.hero && <a class="lesson-image" href={sitePath(`/blog/${post.id}/`)} tabindex="-1" aria-hidden="true"><img src={sitePath(post.data.hero.src)} alt="" width="240" height="180" loading="lazy" /></a>}
+  {post.data.hero && <a class="lesson-image" href={sitePath(`/blog/${post.id}/`)} tabindex="-1" aria-hidden="true"><OptimizedImage src={post.data.hero.src} alt="" width={480} widths={[160, 320, 480]} sizes="160px" loading="lazy" /></a>}
 </li>)}
 </ol>

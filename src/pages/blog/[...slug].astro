@@ -1,4 +1,5 @@
 ---
+import OptimizedImage from '../../components/OptimizedImage.astro';
 import { sitePath } from '../../lib/urls';
 import { getCollection, getEntry, getEntries, render } from 'astro:content';
 import Page from '../../layouts/Page.astro';
@@ -32,7 +33,7 @@ const related = (await getEntries(post.data.relatedPosts ?? []))
     <p><FormattedDate date={post.data.pubDate} /> · {post.data.readingMinutes} min read · <a href={sitePath(`/team/#${post.data.author.id}`)}>{author?.data.name ?? post.data.author.id}</a></p>
     {post.data.updatedDate && <p>Updated <FormattedDate date={post.data.updatedDate} /></p>}
     <p>{categories.filter(Boolean).map(category => <a class="topic" href={sitePath(`/topics/#${category.id}`)}>{category.data.title}</a>)}</p>
-    {post.data.hero && <img src={sitePath(post.data.hero.src)} alt={post.data.hero.alt} width="720" height="360" />}
+    {post.data.hero && <OptimizedImage picture src={post.data.hero.src} alt={post.data.hero.alt} width="720" height="360" />}
     <div class="prose"><Content /></div>
     {videos.length > 0 && <section class="lesson-videos"><h2>Watch & learn</h2>{videos.filter(Boolean).map(video => <VideoLesson video={video} />)}</section>}
     {post.data.tags.length > 0 && <p>Filed under: {post.data.tags.join(', ')}</p>}

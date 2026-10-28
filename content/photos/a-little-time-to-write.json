@@ -18,5 +18,9 @@
   ],
   "credit": "Rashed Hossain",
   "visible": true,
-  "order": 1024
+  "order": 1024,
+  "thumbnail": {
+    "src": "/images/library/a-little-time-to-write-thumbnail-649e1e3474b9b542.jpg",
+    "alt": "Wooden hourglass with pink sand beside a wooden pen holder on a desk."
+  }
 }
