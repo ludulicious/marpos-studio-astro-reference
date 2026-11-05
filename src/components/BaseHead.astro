@@ -4,6 +4,7 @@ import '../styles/global.css';
 import { SITE_TITLE } from '../consts';
 interface Props { title: string; description: string; image?: string }
 const { title, description, image = '/images/library/the-bright-meeting-room.jpg' } = Astro.props;
+const pageTitle = title === "Astro reference app" ? `${title} · Marpos Studio` : `${title} · ${SITE_TITLE}`;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 <meta charset="utf-8" />
@@ -13,12 +14,12 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
 <link rel="icon" type="image/svg+xml" href={sitePath('/favicon.svg')} />
 <link rel="icon" type="image/png" sizes="32x32" href={sitePath('/favicon-32x32.png')} />
 <link rel="apple-touch-icon" sizes="180x180" href={sitePath('/apple-touch-icon.png')} />
-<title>{title} · {SITE_TITLE}</title>
+<title>{pageTitle}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
 <link rel="sitemap" href={sitePath('/sitemap-index.xml')} />
 <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href={sitePath('/rss.xml')} />
-<meta property="og:title" content={title} />
+<meta property="og:title" content={pageTitle} />
 <meta property="og:description" content={description} />
 <meta property="og:type" content="website" />
 <meta property="og:image" content={new URL(sitePath(image), Astro.site)} />
