@@ -3,7 +3,23 @@ import { sitePath } from '../lib/urls';
 interface Props { footer?: boolean }
 const { footer = false } = Astro.props;
 ---
-<a class:list={['brand', { 'brand-footer': footer }]} href={sitePath('/')} aria-label="Marpos Studio home">
+<a class:list={['brand', { 'brand-footer': footer }]} href={sitePath('/')} aria-label="Marpos Studio — Astro reference app home">
   <img src={sitePath('/favicon.svg')} width="44" height="44" alt="" />
-  <span>marpos<span class="brand-studio">studio</span></span>
+  <span>
+    marpos<span class="brand-studio">studio</span>
+    <span class="brand-variant">Astro reference app</span>
+  </span>
 </a>
+
+<style>
+  .brand-variant {
+    display: block;
+    margin-top: 0.3rem;
+    color: var(--color-ink-2);
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: normal;
+    line-height: 1.2;
+  }
+</style>
