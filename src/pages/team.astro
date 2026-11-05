@@ -1,5 +1,6 @@
 ---
 import OptimizedImage from '../components/OptimizedImage.astro';
+import AuthorAvatar from '../components/AuthorAvatar.astro';
 import { sitePath } from '../lib/urls';
 import { getCollection, getEntry, render } from 'astro:content';
 import Page from '../layouts/Page.astro';
@@ -10,14 +11,14 @@ const authors = await getCollection('authors');
 const posts = await getCollection('blog', ({data}) => import.meta.env.DEV || data.status === 'published');
 ---
 <Page title={page.data.title} description={page.data.description} image={page.data.hero?.src}>
-  <h1>{page.data.title}</h1>
-  <p>{page.data.description}</p>
+  <div class="page-intro"><p class="breadcrumb"><a href={sitePath('/')}>Showcase</a> / Contributors</p><h1>{page.data.title}</h1>
+  <p class="lead">{page.data.description}</p><Content /></div>
   {page.data.hero && <OptimizedImage picture src={page.data.hero.src} alt={page.data.hero.alt} width="720" height="360" />}
-  <Content />
-  {authors.map(author => <section id={author.id}>
-    <h2>{author.data.name}</h2><p><strong>{author.data.role}</strong></p><p>{author.data.bio}</p>
+  <div class="directory-grid contributor-grid">{authors.map(author => <section class="directory-card" id={author.id}>
+    <AuthorAvatar author={author.data} size={88} class="profile-avatar" />
+    <h2>{author.data.name}</h2><p class="directory-label">{author.data.role}</p><p>{author.data.bio}</p>
     {author.data.website && <p><a href={author.data.website}>Website</a></p>}
-    <ul>{posts.filter(post => post.data.author.id === author.id).map(post => <li><a href={sitePath(`/blog/${post.id}/`)}>{post.data.title}</a></li>)}</ul>
-  </section>)}
+    <h3>From this contributor</h3><ul>{posts.filter(post => post.data.author.id === author.id).map(post => <li><a href={sitePath(`/blog/${post.id}/`)}>{post.data.title}<span aria-hidden="true">↗</span></a></li>)}</ul>
+  </section>)}</div>
   {page.data.callToAction && <p><a href={sitePath(page.data.callToAction.href)}>{page.data.callToAction.label} →</a></p>}
 </Page>

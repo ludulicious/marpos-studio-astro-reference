@@ -11,7 +11,7 @@ const { Content } = await render(page);
 const posts = (await getCollection('blog', ({data}) => import.meta.env.DEV || data.status === 'published')).sort(chapterOrder);
 ---
 <Page title={page.data.title} description={page.data.description} image={page.data.hero?.src}>
- <div class="page-intro"><p class="breadcrumb"><a href={sitePath('/')}>Handbook</a> / User manual</p><h1>{page.data.title}</h1><p class="lead">{page.data.description}</p><Content /></div>
+ <div class="page-intro"><p class="breadcrumb"><a href={sitePath('/')}>Showcase</a> / User manual</p><h1>{page.data.title}</h1><p class="lead">{page.data.description}</p><Content /></div>
  <CollectionSearch placeholder="Find a chapter: images, preview, publishing…" />
  <PostList posts={posts} />
 </Page>

@@ -1,5 +1,9 @@
 {
-  "name": "Studio Editorial",
-  "role": "Content and workflow guides",
-  "bio": "A sample editorial profile for the people who plan, write, and review website content in Marpos Studio."
+  "name": "Emma de Vries",
+  "role": "Content editor",
+  "bio": "Emma turns early ideas into clear, useful stories. She writes about everyday editing, finding the right image, and building a publishing routine that feels natural.",
+  "avatar": {
+    "src": "/images/authors/emma-de-vries.webp",
+    "alt": "A smiling woman with dark hair wearing a red top."
+  }
 }

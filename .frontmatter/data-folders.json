@@ -1,0 +1,136 @@
+{
+  "$schema": "https://frontmatter.codes/frontmatter.schema.json",
+  "frontMatter.data.folders": [
+    {
+      "id": "authors",
+      "path": "[[workspace]]/content/authors",
+      "labelField": "name",
+      "singleEntry": true,
+      "enableFileCreation": true,
+      "fileType": "json",
+      "schema": {
+        "title": "Author",
+        "type": "object",
+        "required": ["name", "role", "bio"],
+        "properties": {
+          "name": { "type": "string", "minLength": 2 },
+          "role": { "type": "string", "minLength": 2 },
+          "bio": { "type": "string", "minLength": 20 },
+          "avatar": {
+            "title": "Portrait avatar",
+            "type": "object",
+            "required": ["src", "alt"],
+            "properties": {
+              "src": { "type": "string", "pattern": "^/images/" },
+              "alt": { "type": "string", "minLength": 1 }
+            }
+          },
+          "website": { "type": "string", "format": "uri" }
+        }
+      }
+    },
+    {
+      "id": "categories",
+      "path": "[[workspace]]/content/categories",
+      "labelField": "title",
+      "singleEntry": true,
+      "enableFileCreation": true,
+      "fileType": "yaml",
+      "schema": {
+        "title": "Topic",
+        "type": "object",
+        "required": ["title", "description", "order"],
+        "properties": {
+          "title": { "type": "string", "minLength": 2 },
+          "description": { "type": "string", "minLength": 20 },
+          "order": { "type": "integer", "minimum": 1 }
+        }
+      }
+    },
+    {
+      "id": "photos",
+      "path": "[[workspace]]/content/photos",
+      "labelField": "title",
+      "singleEntry": true,
+      "enableFileCreation": true,
+      "fileType": "json",
+      "schema": {
+        "title": "Photo",
+        "type": "object",
+        "required": ["title", "image"],
+        "definitions": {
+          "image": {
+            "type": "object",
+            "required": ["src", "alt"],
+            "properties": {
+              "src": { "type": "string", "pattern": "^/images/" },
+              "alt": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        "properties": {
+          "title": { "type": "string", "minLength": 2 },
+          "description": { "type": "string" },
+          "image": { "$ref": "#/definitions/image" },
+          "thumbnail": { "$ref": "#/definitions/image" },
+          "categories": { "type": "array", "items": { "type": "string" }, "default": [] },
+          "credit": { "type": "string", "default": "" },
+          "visible": { "type": "boolean", "default": true },
+          "order": { "type": "number", "default": 0 },
+          "creator": { "type": "string" },
+          "creatorUrl": { "type": "string", "format": "uri" },
+          "sourceUrl": { "type": "string", "format": "uri" },
+          "originalUrl": { "type": "string", "format": "uri" },
+          "license": { "type": "string" },
+          "licenseUrl": { "type": "string", "format": "uri" },
+          "width": { "type": "number", "exclusiveMinimum": 0 },
+          "height": { "type": "number", "exclusiveMinimum": 0 },
+          "changes": { "type": "string" },
+          "duration": { "type": "string" },
+          "lesson": { "type": "string", "description": "A blog entry ID." }
+        }
+      }
+    },
+    {
+      "id": "videos",
+      "path": "[[workspace]]/content/videos",
+      "labelField": "title",
+      "singleEntry": true,
+      "enableFileCreation": true,
+      "fileType": "json",
+      "schema": {
+        "title": "Video",
+        "type": "object",
+        "required": ["title", "youtubeId"],
+        "properties": {
+          "title": { "type": "string", "minLength": 2 },
+          "description": { "type": "string" },
+          "youtubeId": { "type": "string", "pattern": "^[A-Za-z0-9_-]{11}$" },
+          "image": {
+            "type": "object",
+            "required": ["src", "alt"],
+            "properties": {
+              "src": { "type": "string", "pattern": "^/images/" },
+              "alt": { "type": "string", "minLength": 1 }
+            }
+          },
+          "categories": { "type": "array", "items": { "type": "string" }, "default": [] },
+          "credit": { "type": "string", "default": "" },
+          "visible": { "type": "boolean", "default": true },
+          "order": { "type": "number", "default": 0 },
+          "creator": { "type": "string" },
+          "creatorUrl": { "type": "string", "format": "uri" },
+          "sourceUrl": { "type": "string", "format": "uri" },
+          "originalUrl": { "type": "string", "format": "uri" },
+          "license": { "type": "string" },
+          "licenseUrl": { "type": "string", "format": "uri" },
+          "width": { "type": "number", "exclusiveMinimum": 0 },
+          "height": { "type": "number", "exclusiveMinimum": 0 },
+          "changes": { "type": "string" },
+          "duration": { "type": "string" },
+          "lesson": { "type": "string", "description": "A blog entry ID." }
+        }
+      }
+    }
+  ]
+}

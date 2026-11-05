@@ -32,6 +32,16 @@ If this new repository is absent from Studio's repository list, check that the G
 
 For local-only editing, clone the repository, run `npm ci`, then choose **Open local repository** and select its root folder. Local projects use your normal Git tools rather than Studio's online draft and publishing controls.
 
+## Use with Front Matter in VS Code
+
+Install the Front Matter CMS extension and open the repository root in VS Code. The committed `frontmatter.json` loads `.frontmatter/content-types.json` and `.frontmatter/data-folders.json`; no Starlight template or generated setup files are needed.
+
+- **Content dashboard:** Pages and Blog use the project's actual frontmatter fields. New chapters are Markdown by default; existing Markdown, MDX and Markdoc files are recognized. Edit MDX/Markdoc bodies in source and preview them through Astro.
+- **Data dashboard:** Authors, Categories, Photos and Videos are single-record JSON/YAML files with forms matching the Astro schemas. Category creation uses `.yaml`; the Astro loader accepts both existing `.yml` files and new `.yaml` files.
+- **Media:** `public/` is the public root, so image references stay `/images/...`, not `/public/images/...` or content-relative paths. Pasted images go into `public/images/`. Add both `src` and meaningful `alt` text when filling a hero image.
+- **Preview:** Start the site with the extension's server action or `npm run dev`. The configured host is `http://localhost:4321`; change it if Astro chooses another port. Blog previews use `/blog/<id>/`. Existing numbered pages carry hidden `slug` aliases for Front Matter, including `index` for the home page. Astro's custom Pages loader still generates IDs from filenames, so these aliases do not change website routes. If renaming a page's descriptive filename, keep its preview alias and `studio.preview.json` mapping in sync; unnumbered new pages need no alias.
+- **Publication:** Blog status uses the existing `draft`/`published` values, not a separate boolean `draft` field. Author, topic, video and related-story fields store existing entry IDs, not labels or URLs. Front Matter's forms are authoring aids: `npm run check` and `npm run build` remain the final validation, including Astro's cross-field date check.
+
 ## Editable content and visible results
 
 | Collection | Source | Reader-facing result |
@@ -40,7 +50,7 @@ For local-only editing, clone the repository, run `npm ci`, then choose **Open l
 | Blog | `content/blog/*.{md,mdx,mdoc}` | User manual at `/blog/`, individual stories at `/blog/<id>/` |
 | Authors | `content/authors/*.json` | Shared bylines, contributor profiles and story links at `/team/` |
 | Media Library | `content/photos/*.json`, `content/videos/*.json` | Searchable library at `/library/`, per-asset details at `/library/<id>/`, referenced videos in chapters |
-| Categories | `content/categories/*.yml` | Topic names, descriptions, order and story links at `/topics/` |
+| Categories | `content/categories/*.{yml,yaml}` | Topic names, descriptions, order and story links at `/topics/` |
 
 There are 47 initial records: five pages, ten manual chapters, two authors, three topics, and 27 media records. Nine chapters are published and one is a draft. The home page lists featured chapters. Chapters use an optional `chapter` number for ordered navigation, and `videos` references for reusable video lessons. All journal, contributor, topic and related-story lists filter drafts out of production. RSS includes only published stories in both development and production.
 
@@ -91,6 +101,8 @@ A production build verifies Astro rendering and content contracts; it does not p
 Live website: **https://ludulicious.github.io/marpos-studio-astro-reference/**
 
 Every push to `main`, including a publication through Marpos Studio, runs `.github/workflows/deploy.yml`. It installs locked dependencies, checks the Astro project, builds the static website, and deploys `dist/` to GitHub Pages. You can also run it manually from the repository's Actions tab. Online drafts remain on their own branches and do not deploy.
+
+Pull requests targeting `main` run `.github/workflows/validate.yml`. Its two jobs, **Validate (root)** and **Validate (github-pages)**, each install locked dependencies, run `npm run check`, and build with their respective base path. They do not configure Pages, upload deployment artifacts or deploy, and require no repository secrets. To block merging on failures, configure the repository's branch protection or ruleset to require both checks; committing the workflow alone does not enable that policy. The validation workflow can also be run manually.
 
 To verify a publication:
 

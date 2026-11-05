@@ -1,0 +1,9 @@
+---
+import { sitePath } from '../lib/urls';
+interface Props { footer?: boolean }
+const { footer = false } = Astro.props;
+---
+<a class:list={['brand', { 'brand-footer': footer }]} href={sitePath('/')} aria-label="Marpos Studio home">
+  <img src={sitePath('/favicon.svg')} width="44" height="44" alt="" />
+  <span>marpos<span class="brand-studio">studio</span></span>
+</a>

@@ -1,5 +1,9 @@
 {
-  "name": "Studio Developers",
-  "role": "Website integration guides",
-  "bio": "A sample technical profile for the people who maintain Astro schemas, website templates, and the preview experience."
+  "name": "Lucas Vermeer",
+  "role": "Frontend developer",
+  "bio": "Lucas connects thoughtful design with the details that make a website work. His guides explore Astro collections, reusable components, and a smooth editing experience in Studio.",
+  "avatar": {
+    "src": "/images/authors/lucas-vermeer.webp",
+    "alt": "A smiling man with short dark hair wearing a white T-shirt."
+  }
 }

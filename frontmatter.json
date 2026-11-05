@@ -1,15 +1,39 @@
 {
   "$schema": "https://frontmatter.codes/frontmatter.schema.json",
   "frontMatter.framework.id": "astro",
+  "frontMatter.framework.startCommand": "npm run dev",
   "frontMatter.preview.host": "http://localhost:4321",
+  "frontMatter.preview.trailingSlash": true,
   "frontMatter.content.publicFolder": {
-    "path": "src/assets",
-    "relative": true
+    "path": "public",
+    "relative": false
   },
+  "frontMatter.media.pasteFolder": "[[workspace]]/public/images",
+  "frontMatter.content.supportedFileTypes": ["md", "mdx", "mdoc"],
+  "frontMatter.content.draftField": {
+    "name": "status",
+    "type": "choice",
+    "choices": ["draft", "published"]
+  },
+  "frontMatter.content.pageFolders": [
+    {
+      "title": "Pages",
+      "path": "[[workspace]]/content/pages",
+      "contentTypes": ["page"],
+      "filePrefix": "",
+      "previewPath": "/{{pathToken.relPath}}"
+    },
+    {
+      "title": "Blog",
+      "path": "[[workspace]]/content/blog",
+      "contentTypes": ["blog"],
+      "filePrefix": "",
+      "previewPath": "/blog/{{pathToken.relPath}}"
+    }
+  ],
   "frontMatter.extends": [
-    ".frontmatter/starlight/contenttypes.json",
-    ".frontmatter/starlight/pagefolders.json",
-    ".frontmatter/starlight/aside.json"
+    ".frontmatter/content-types.json",
+    ".frontmatter/data-folders.json"
   ],
   "frontMatter.git.enabled": true
 }

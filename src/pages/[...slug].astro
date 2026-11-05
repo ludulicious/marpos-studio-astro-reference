@@ -11,9 +11,9 @@ const { page } = Astro.props;
 const { Content } = await render(page);
 ---
 <Page title={page.data.title} description={page.data.description} image={page.data.hero?.src}>
-  <h1>{page.data.title}</h1>
-  <p>{page.data.description}</p>
+  <div class="page-intro"><p class="breadcrumb"><a href={sitePath('/')}>Showcase</a> / {page.data.title}</p><h1>{page.data.title}</h1>
+  <p class="lead">{page.data.description}</p></div>
   {page.data.hero && <OptimizedImage picture src={page.data.hero.src} alt={page.data.hero.alt} width="720" height="360" />}
-  <Content />
+  <div class="prose"><Content /></div>
   {page.data.callToAction && <p><a href={sitePath(page.data.callToAction.href)}>{page.data.callToAction.label} →</a></p>}
 </Page>

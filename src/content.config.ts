@@ -72,11 +72,12 @@ export const collections = {
       name: z.string().min(2),
       role: z.string().min(2),
       bio: z.string().min(20),
+      avatar: media.optional(),
       website: z.url().optional(),
     }),
   }),
   categories: defineCollection({
-    loader: glob({ base: './content/categories', pattern: '**/*.yml' }),
+    loader: glob({ base: './content/categories', pattern: '**/*.{yml,yaml}' }),
     schema: z.object({
       title: z.string().min(2),
       description: z.string().min(20),

@@ -1,0 +1,76 @@
+/* Motion is progressive enhancement: no persistent hidden states or loops. */
+@keyframes studio-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes studio-spark-turn {
+  from { opacity: 0; rotate: -65deg; scale: .7; }
+  to { opacity: 1; rotate: 0deg; scale: 1; }
+}
+
+.nav-toggle path:first-child { transform-origin: 10px 6px; }
+.nav-toggle path:last-child { transform-origin: 10px 14px; }
+.is-open .nav-toggle path:first-child { transform: translateY(4px) rotate(45deg); }
+.is-open .nav-toggle path:last-child { transform: translateY(-4px) rotate(-45deg); }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Content stays in its final position throughout every entrance. */
+  .hero-copy, .page-intro {
+    animation: studio-fade 240ms var(--ease-out) backwards;
+  }
+
+  .canvas-photo-main, .canvas-photo-detail, .canvas-note, .hero-foundations {
+    animation: studio-fade 320ms var(--ease-out) backwards;
+  }
+  .canvas-spark { animation: studio-spark-turn 650ms var(--ease-out) backwards; }
+
+  .showcase-panel[role='tabpanel']:not([hidden]) {
+    animation: studio-fade 180ms var(--ease-out) backwards;
+  }
+
+  .button, .header-cta, .story-card, .media-card, .directory-card {
+    transition: transform 250ms var(--ease-out);
+  }
+  .button > span[aria-hidden], .header-cta > span[aria-hidden],
+  .inline-link > span[aria-hidden], .story-read > span[aria-hidden], .gallery-arrow {
+    transition: transform 250ms var(--ease-out);
+  }
+  .button > span[aria-hidden], .header-cta > span[aria-hidden],
+  .inline-link > span[aria-hidden], .story-read > span[aria-hidden] { display: inline-block; }
+  .brand img { transition: transform 300ms var(--ease-out); }
+
+  .nav-toggle path { transition: transform 220ms var(--ease-out); }
+
+  @media (max-width: 800px) {
+    .navigation-ready.is-open .site-navigation {
+      animation: studio-fade 180ms var(--ease-out) backwards;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .button:hover, .header-cta:hover { transform: translateY(-2px); }
+    .button:active, .header-cta:active { transform: translateY(1px); }
+    .story-card:hover, .media-card:hover, .directory-card:hover { transform: translateY(-4px); }
+    .button:hover > span[aria-hidden], .header-cta:hover > span[aria-hidden],
+    .inline-link:hover > span[aria-hidden], .story-read:hover > span[aria-hidden] {
+      transform: translateX(3px);
+    }
+    .gallery-item:hover .gallery-arrow { transform: translate(2px, -2px); }
+    .brand:hover img { transform: rotate(-7deg); }
+  }
+}
+
+/* Keep focus immediate without restarting the entrance when focus leaves. */
+.hero-copy:focus-within, .page-intro:focus-within,
+.canvas-photo-detail:focus-visible, .showcase-panel:focus-within, .site-navigation:focus-within {
+  opacity: 1 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

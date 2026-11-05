@@ -1,21 +1,86 @@
 ---
 import OptimizedImage from '../components/OptimizedImage.astro';
+import ShowcaseTabs from '../components/ShowcaseTabs.astro';
 import { sitePath } from '../lib/urls';
 import { getEntry, getCollection, render } from 'astro:content';
 import Page from '../layouts/Page.astro';
 import { getMedia } from '../lib/media';
-import PostList from '../components/PostList.astro';
 import { chapterOrder } from '../lib/manual';
+import '../styles/showcase.css';
+
 const page = await getEntry('pages', 'home');
 if (!page) throw new Error('The home page content is missing.');
 const { Content } = await render(page);
-const posts = (await getCollection('blog', ({data}) => data.featured && (import.meta.env.DEV || data.status === 'published'))).sort(chapterOrder);
+const posts = (await getCollection('blog', ({ data }) => import.meta.env.DEV || data.status === 'published')).sort(chapterOrder);
 const media = await getMedia();
-const images = ['light-through-the-trees','the-bright-meeting-room','reflections-at-the-stepwell'].map(id => media.find(item => item.id === id)!);
+const authors = await getCollection('authors');
+const categories = (await getCollection('categories')).sort((a, b) => a.data.order - b.data.order);
+const featuredPosts = posts.filter(post => post.data.featured).slice(0, 3);
+const selectedMedia = ['reflections-at-the-stepwell', 'look-up', 'where-land-meets-water', 'the-bright-meeting-room']
+  .flatMap(id => { const item = media.find(asset => asset.id === id); return item ? [item] : []; });
+const secondaryImage = selectedMedia[0];
 ---
-<Page title={page.data.title} description={page.data.description} image={page.data.hero?.src}>
- <section class="home-opening"><div><p class="edition">A field guide to your content</p><h1>{page.data.title}</h1><p class="lead">{page.data.description}</p>{page.data.callToAction && <a class="button" href={sitePath(page.data.callToAction.href)}>{page.data.callToAction.label} <span aria-hidden="true">↗</span></a>}<p class="quiet-link"><a href={sitePath('/library/')}>Or explore the media library →</a></p></div><figure>{page.data.hero && <OptimizedImage picture src={page.data.hero.src} alt={page.data.hero.alt} width="1200" height="900" sizes="(max-width: 768px) calc(100vw - 40px), 560px" loading="eager" fetchpriority="high" />}<figcaption>A space to learn. A little room to create.</figcaption></figure></section>
- <section class="home-manual"><div class="section-heading"><div><h2>From first edit to published.</h2><p>Work through the essentials, one useful chapter at a time.</p></div><a href={sitePath('/blog/')}>All chapters →</a></div><PostList posts={posts.slice(0,3)} /></section>
- <section class="home-library"><div class="section-heading"><div><h2>A library with a point of view.</h2><p>Real photography and CMS lessons, with clear reuse details.</p></div><a href={sitePath('/library/')}>Browse all {media.length} assets →</a></div><div class="photo-strip">{images.map(item => <a href={sitePath(`/library/${item.id}/`)}><OptimizedImage picture src={item.data.src} alt={item.data.alt} width={item.data.width} height={item.data.height} sizes="(max-width: 768px) calc(100vw - 40px), 360px" loading="lazy" /><span>{item.data.title} ↗</span></a>)}</div></section>
- <div class="closing-note"><Content /></div>
+<Page home title={page.data.title} description={page.data.description} image={page.data.hero?.src}>
+  <section class="showcase-hero" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <p class="integration-label"><span class="sparkle" aria-hidden="true">✳</span> Astro <span class="integration-plus">+</span> Marpos Studio</p>
+      <h1 id="hero-title">{page.data.title}</h1>
+      <p class="hero-description">{page.data.description}</p>
+      <div class="hero-actions">
+        <a class="button button-cyan" href="#explore">See what’s possible <span aria-hidden="true">↗</span></a>
+        {page.data.callToAction && <a class="hero-text-link" href={sitePath(page.data.callToAction.href)}>{page.data.callToAction.label} <span aria-hidden="true">→</span></a>}
+      </div>
+      <p class="hero-footnote"><span aria-hidden="true"></span> A real website. Ready to explore.</p>
+    </div>
+    <div class="hero-canvas">
+      <svg class="canvas-spark" viewBox="0 0 100 100" fill="none" aria-hidden="true"><path d="M50 2C50 34 34 50 2 50c32 0 48 16 48 48 0-32 16-48 48-48C66 50 50 34 50 2Z" fill="currentColor" /></svg>
+      {page.data.hero && <figure class="canvas-photo canvas-photo-main">
+        <OptimizedImage picture src={page.data.hero.src} alt={page.data.hero.alt} width={900} sizes="(max-width: 600px) 65vw, 360px" loading="eager" fetchpriority="high" />
+        <figcaption>A little room for big ideas. <span aria-hidden="true">↗</span></figcaption>
+      </figure>}
+      {secondaryImage && <a class="canvas-photo canvas-photo-detail" href={sitePath(`/library/${secondaryImage.id}/`)}>
+        <OptimizedImage src={secondaryImage.data.src} alt={secondaryImage.data.alt} width={480} sizes="(max-width: 600px) 43vw, 240px" loading="eager" />
+        <span>{secondaryImage.data.title} <span aria-hidden="true">↗</span></span>
+      </a>}
+      <div class="canvas-note"><span class="canvas-note-icon" aria-hidden="true">✓</span><div><strong>Creativity, meet content.</strong><span>Beautiful on the outside.<br />Editable on the inside.</span></div></div>
+      <span class="canvas-caption">A few things you can make your own</span>
+    </div>
+    <div class="hero-foundations">
+      <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m13 2-9 12h7l-1 8 10-12h-8z" /></svg>Built for the web with Astro</span>
+      <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 16-1 5 5-1L20 8l-4-4L4 16Zm10-10 4 4" /></svg>Made for people with Studio</span>
+      <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8 4-6 8 6 8m8-16 6 8-6 8m-3-18-2 20" /></svg>Your content. Your code.</span>
+    </div>
+  </section>
+
+  <section id="explore" class="showcase-section" aria-labelledby="explore-title">
+    <div class="section-heading">
+      <div><p class="eyebrow">This is a working showcase</p><h2 id="explore-title">More than a pretty page.</h2></div>
+      <p>Stories to tell. Collections to explore. Everything you see is built from real, editable content.</p>
+    </div>
+    <ShowcaseTabs posts={featuredPosts} allPosts={posts} media={media} authors={authors} categories={categories} />
+  </section>
+
+  <section class="home-gallery showcase-section" aria-labelledby="gallery-title">
+    <div class="section-heading">
+      <div><p class="eyebrow">The media library</p><h2 id="gallery-title">Good content deserves<br />a great canvas.</h2></div>
+      <div class="section-heading-aside"><p>From a quiet landscape to a moment of inspiration. Responsive images, ready to find their place.</p><a class="inline-link" href={sitePath('/library/')}>Explore all {media.length} assets <span aria-hidden="true">↗</span></a></div>
+    </div>
+    <div class="showcase-gallery">
+      {selectedMedia.map((item, index) => <a class:list={['gallery-item', `gallery-item-${index + 1}`]} href={sitePath(`/library/${item.id}/`)}>
+        <OptimizedImage picture src={item.data.src} alt={item.data.alt} width={item.data.width} height={item.data.height} sizes={index === 0 ? '(max-width: 700px) calc(100vw - 48px), 580px' : '(max-width: 700px) calc(100vw - 48px), 360px'} loading="lazy" />
+        <span class="gallery-caption"><span><small>{item.data.category}</small><strong>{item.data.title}</strong></span><span class="gallery-arrow" aria-hidden="true">↗</span></span>
+      </a>)}
+    </div>
+    <p class="gallery-credit">Real photography. Open possibilities. <a href={sitePath('/library/')}>Sources and CC0 credits in the library.</a></p>
+  </section>
+
+  <section class="workflow-banner" aria-labelledby="workflow-title">
+    <div class="workflow-intro"><p class="eyebrow">A natural publishing workflow</p><h2 id="workflow-title">From “what if”<br />to out in the world.</h2><a class="button button-cyan" href={sitePath('/blog/')}>Find your starting point <span aria-hidden="true">→</span></a></div>
+    <ol class="workflow-steps">
+      <li><span>01</span><div><h3>Make it yours.</h3><p>Write a story, choose a photo, or update a detail in Marpos Studio.</p></div></li>
+      <li><span>02</span><div><h3>See the whole picture.</h3><p>Preview your changes in the actual Astro site, with everything in context.</p></div></li>
+      <li><span>03</span><div><h3>Publish with confidence.</h3><p>Review your work, then use your project’s publishing workflow when it’s ready.</p></div></li>
+    </ol>
+  </section>
+  <div class="closing-note"><img src={sitePath('/favicon.svg')} alt="" width="36" height="36" /><div><Content /></div></div>
 </Page>

@@ -10,13 +10,16 @@ const categories = (await getCollection('categories')).sort((a,b) => a.data.orde
 const posts = await getCollection('blog', ({data}) => import.meta.env.DEV || data.status === 'published');
 ---
 <Page title={page.data.title} description={page.data.description} image={page.data.hero?.src}>
-  <h1>{page.data.title}</h1>
-  <p>{page.data.description}</p>
+  <div class="page-intro"><p class="breadcrumb"><a href={sitePath('/')}>Showcase</a> / Topics</p><h1>{page.data.title}</h1>
+  <p class="lead">{page.data.description}</p><Content /></div>
   {page.data.hero && <OptimizedImage picture src={page.data.hero.src} alt={page.data.hero.alt} width="720" height="360" />}
-  <Content />
-  {categories.map(category => <section id={category.id}>
-    <h2>{category.data.title}</h2><p>{category.data.description}</p>
-    <ul>{posts.filter(post => post.data.categories.some(item => item.id === category.id)).map(post => <li><a href={sitePath(`/blog/${post.id}/`)}>{post.data.title}</a></li>)}</ul>
-  </section>)}
+  <div class="directory-grid">{categories.map(category => {
+    const chapters = posts.filter(post => post.data.categories.some(item => item.id === category.id));
+    return <section class="directory-card" id={category.id}>
+      <p class="directory-label">{chapters.length} {chapters.length === 1 ? 'chapter' : 'chapters'}</p>
+      <h2>{category.data.title}</h2><p>{category.data.description}</p>
+      <ul>{chapters.map(post => <li><a href={sitePath(`/blog/${post.id}/`)}>{post.data.title}<span aria-hidden="true">↗</span></a></li>)}</ul>
+    </section>;
+  })}</div>
   {page.data.callToAction && <p><a href={sitePath(page.data.callToAction.href)}>{page.data.callToAction.label} →</a></p>}
 </Page>

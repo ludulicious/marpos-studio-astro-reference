@@ -1,0 +1,93 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import type { MediaAsset } from '../lib/media';
+import { sitePath } from '../lib/urls';
+import OptimizedImage from './OptimizedImage.astro';
+import AuthorAvatar from './AuthorAvatar.astro';
+interface Props {
+  posts: CollectionEntry<'blog'>[];
+  allPosts: CollectionEntry<'blog'>[];
+  media: MediaAsset[];
+  authors: CollectionEntry<'authors'>[];
+  categories: CollectionEntry<'categories'>[];
+}
+const { posts, allPosts, media, authors, categories } = Astro.props;
+const authorsById = new Map(authors.map(author => [author.id, author]));
+const sampleMedia = [media.find(item => item.id === 'light-through-the-trees'), media.find(item => item.id === 'the-bright-meeting-room'), media.find(item => item.data.kind === 'video')].filter((item): item is MediaAsset => Boolean(item));
+const tabs = [
+  { id: 'stories', label: 'Stories & pages', count: allPosts.length },
+  { id: 'media', label: 'Photos & video', count: media.length },
+  { id: 'connections', label: 'Connected content', count: categories.length + authors.length },
+];
+---
+<div class="content-showcase" data-showcase>
+  <div class="showcase-tabs" aria-label="Explore content types" data-showcase-tabs hidden>
+    {tabs.map(tab => <button type="button" id={`tab-${tab.id}`} data-tab={tab.id}>{tab.label}<span>{tab.count}</span></button>)}
+  </div>
+  <section id="panel-stories" class="showcase-panel" data-panel="stories">
+    <div class="panel-description"><h3>A little guidance. A lot of possibility.</h3><a class="inline-link" href={sitePath('/blog/')}>All chapters <span aria-hidden="true">→</span></a></div>
+    <div class="story-cards">
+      {posts.map(post => <article class="story-card">
+        {post.data.hero && <a class="story-image" href={sitePath(`/blog/${post.id}/`)} tabindex="-1" aria-hidden="true"><OptimizedImage src={post.data.hero.src} alt="" width={640} sizes="(max-width: 700px) calc(100vw - 80px), 360px" loading="lazy" /><span>Chapter {String(post.data.chapter ?? '—').padStart(2, '0')}</span></a>}
+        <div class="story-card-copy"><p class="meta">User manual <span>·</span> {post.data.readingMinutes} min read</p><h3><a href={sitePath(`/blog/${post.id}/`)}>{post.data.title}</a></h3><p>{post.data.description}</p>{(() => {
+          const author = authorsById.get(post.data.author.id);
+          return author && <a class="story-author" href={sitePath(`/team/#${author.id}`)}><AuthorAvatar author={author.data} size={28} /><span>{author.data.name}</span></a>;
+        })()}<a class="story-read" href={sitePath(`/blog/${post.id}/`)} aria-label={`Read ${post.data.title}`}>Read the chapter <span aria-hidden="true">↗</span></a></div>
+      </article>)}
+    </div>
+  </section>
+  <section id="panel-media" class="showcase-panel" data-panel="media">
+    <div class="panel-description"><h3>A home for every image and idea.</h3><a class="inline-link" href={sitePath('/library/')}>Open the library <span aria-hidden="true">→</span></a></div>
+    <div class="story-cards">
+      {sampleMedia.map(item => <article class="story-card">
+        <a class="story-image" href={sitePath(`/library/${item.id}/`)} tabindex="-1" aria-hidden="true"><OptimizedImage src={item.data.previewSrc ?? item.data.src} alt="" width={640} sizes="(max-width: 700px) calc(100vw - 80px), 360px" loading="lazy" /><span>{item.data.kind === 'video' ? '▶ Video lesson' : item.data.category}</span></a>
+        <div class="story-card-copy"><p class="meta">{item.data.kind === 'video' ? 'CMS tutorial' : 'Photography'} · {item.data.license}</p><h3><a href={sitePath(`/library/${item.id}/`)}>{item.data.title}</a></h3><p>By {item.data.creator}. Source details and credits travel with every asset.</p><a class="story-read" href={sitePath(`/library/${item.id}/`)} aria-label={`Explore ${item.data.title}`}>Explore the asset <span aria-hidden="true">↗</span></a></div>
+      </article>)}
+    </div>
+  </section>
+  <section id="panel-connections" class="showcase-panel" data-panel="connections">
+    <div class="panel-description"><h3>Write once. Bring it all together.</h3><a class="inline-link" href={sitePath('/topics/')}>Explore topics <span aria-hidden="true">→</span></a></div>
+    <div class="connections-grid">
+      <div class="connection-authors"><h4>The people behind the stories</h4>{authors.map(author => <a class="connection-author" href={sitePath(`/team/#${author.id}`)}><AuthorAvatar author={author.data} size={44} /><span><strong>{author.data.name}</strong><small>{author.data.role}</small></span><span aria-hidden="true">↗</span></a>)}<p>Shared profiles keep every byline connected. Update a name in Studio and it changes wherever it appears.</p></div>
+      <div class="connection-topics"><h4>Stories with something in common</h4>{categories.map(category => <a href={sitePath(`/topics/#${category.id}`)}><span><strong>{category.data.title}</strong><small>{category.data.description}</small></span><span class="topic-count">{allPosts.filter(post => post.data.categories.some(reference => reference.id === category.id)).length}<span class="sr-only"> chapters</span></span></a>)}</div>
+    </div>
+  </section>
+  <div class="showcase-caption"><span class="live-dot" aria-hidden="true"></span> Real collections, rendered by Astro. Ready to edit in Marpos Studio.</div>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-showcase]').forEach(showcase => {
+    const tablist = showcase.querySelector<HTMLElement>('[data-showcase-tabs]')!;
+    const tabs = Array.from(tablist.querySelectorAll<HTMLButtonElement>('[data-tab]'));
+    const panels = Array.from(showcase.querySelectorAll<HTMLElement>('[data-panel]'));
+    const selectTab = (selected: HTMLButtonElement) => {
+      tabs.forEach(tab => {
+        const active = tab === selected;
+        tab.setAttribute('aria-selected', String(active));
+        tab.tabIndex = active ? 0 : -1;
+      });
+      panels.forEach(panel => { panel.hidden = panel.dataset.panel !== selected.dataset.tab; });
+    };
+    tablist.setAttribute('role', 'tablist');
+    tabs.forEach((tab, index) => {
+      tab.setAttribute('role', 'tab');
+      tab.setAttribute('aria-controls', `panel-${tab.dataset.tab}`);
+      tab.addEventListener('click', () => selectTab(tab));
+      tab.addEventListener('keydown', event => {
+        const next = event.key === 'ArrowRight' ? (index + 1) % tabs.length
+          : event.key === 'ArrowLeft' ? (index - 1 + tabs.length) % tabs.length
+          : event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : null;
+        if (next === null) return;
+        event.preventDefault();
+        selectTab(tabs[next]);
+        tabs[next].focus();
+      });
+    });
+    panels.forEach(panel => {
+      panel.setAttribute('role', 'tabpanel');
+      panel.setAttribute('aria-labelledby', `tab-${panel.dataset.panel}`);
+      panel.tabIndex = 0;
+    });
+    selectTab(tabs[0]);
+    tablist.hidden = false;
+  });
+</script>

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://frontmatter.codes/frontmatter.schema.json",
+  "frontMatter.taxonomy.fieldGroups": [
+    {
+      "id": "pageDetails",
+      "fields": [
+        { "name": "title", "title": "Title", "type": "string", "single": true, "required": true, "default": "{{title}}", "description": "Between 5 and 100 characters." },
+        { "name": "description", "title": "Description", "type": "string", "required": true, "description": "Between 20 and 200 characters." },
+        {
+          "name": "hero",
+          "title": "Hero image",
+          "type": "fields",
+          "fields": [
+            { "name": "src", "title": "Image", "type": "image", "isPreviewImage": true, "required": true, "description": "A root-relative /images/... path." },
+            { "name": "alt", "title": "Alternative text", "type": "string", "single": true, "required": true }
+          ]
+        }
+      ]
+    }
+  ],
+  "frontMatter.taxonomy.contentTypes": [
+    {
+      "name": "page",
+      "pageBundle": false,
+      "clearEmpty": true,
+      "fields": [
+        { "name": "pageDetails", "type": "fieldCollection", "fieldGroup": "pageDetails" },
+        { "name": "slug", "title": "Preview slug", "type": "string", "hidden": true, "description": "Preview alias for existing numbered pages; Astro generates page IDs from filenames." },
+        { "name": "path", "title": "Template path", "type": "string", "hidden": true },
+        {
+          "name": "callToAction",
+          "title": "Call to action",
+          "type": "fields",
+          "fields": [
+            { "name": "label", "title": "Label", "type": "string", "single": true, "required": true },
+            { "name": "href", "title": "Destination", "type": "string", "single": true, "required": true, "description": "A root-relative path, such as /blog/." }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "blog",
+      "pageBundle": false,
+      "clearEmpty": true,
+      "fields": [
+        { "name": "pageDetails", "type": "fieldCollection", "fieldGroup": "pageDetails" },
+        { "name": "pubDate", "title": "Publication date", "type": "datetime", "required": true, "isPublishDate": true, "default": "{{now}}", "dateFormat": "yyyy-MM-dd" },
+        { "name": "updatedDate", "title": "Updated date", "type": "datetime", "isModifiedDate": true, "dateFormat": "yyyy-MM-dd", "description": "Must be on or after the publication date." },
+        { "name": "status", "title": "Status", "type": "draft", "default": "draft", "required": true },
+        { "name": "author", "title": "Author ID", "type": "string", "single": true, "required": true, "description": "An existing content/authors filename without .json." },
+        { "name": "categories", "title": "Topic IDs", "type": "list", "required": true, "description": "At least one existing content/categories filename without .yml or .yaml." },
+        { "name": "tags", "title": "Tags", "type": "tags", "default": [] },
+        { "name": "featured", "title": "Featured", "type": "boolean", "default": false },
+        { "name": "readingMinutes", "title": "Reading time (minutes)", "type": "number", "required": true, "numberOptions": { "min": 1, "max": 60, "step": 1 } },
+        { "name": "chapter", "title": "Chapter number", "type": "number", "numberOptions": { "min": 1, "step": 1 } },
+        { "name": "videos", "title": "Video IDs", "type": "list", "default": [], "description": "Existing content/videos filenames without .json." },
+        { "name": "relatedPosts", "title": "Related story IDs", "type": "list", "description": "Existing content/blog filenames without their extension." }
+      ]
+    }
+  ]
+}

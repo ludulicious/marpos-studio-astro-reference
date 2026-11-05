@@ -1,0 +1,67 @@
+---
+import '../styles/motion.css';
+---
+<script>
+  const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const targets = Array.from(document.querySelectorAll<HTMLElement>([
+    '.section-heading', '.content-showcase', '.gallery-item',
+    '.workflow-intro', '.workflow-steps > li',
+    '.directory-card', '.media-card', '.lesson-list > li',
+  ].join(', ')));
+  const revealed = new WeakSet<HTMLElement>();
+  const animations = new Map<HTMLElement, Animation>();
+  let observer: IntersectionObserver | undefined;
+
+  const stop = () => {
+    observer?.disconnect();
+    animations.forEach(animation => animation.cancel());
+    animations.clear();
+  };
+
+  const observe = () => {
+    stop();
+    if (preference.matches || !('IntersectionObserver' in window) || !('animate' in Element.prototype)) return;
+
+    observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const target = entry.target as HTMLElement;
+        observer?.unobserve(target);
+        revealed.add(target);
+        // Keyboard users should never have to wait for focused content to appear.
+        if (preference.matches || target.contains(document.activeElement)) return;
+
+        const animation = target.animate(
+          [{ opacity: 0 }, { opacity: 1 }],
+          { duration: 280, easing: 'cubic-bezier(.16, 1, .3, 1)', fill: 'backwards' },
+        );
+        animations.set(target, animation);
+        const forget = () => animations.delete(target);
+        animation.addEventListener('finish', forget, { once: true });
+        animation.addEventListener('cancel', forget, { once: true });
+      });
+    }, { threshold: 0, rootMargin: '0px 0px 64px 0px' });
+
+    targets.forEach(target => {
+      if (revealed.has(target) || target.closest('[hidden]')) return;
+      // Start just before entry and skip content already visible or nearby.
+      // Nothing moves or stays hidden if scripts or browser APIs are unavailable.
+      if (target.getBoundingClientRect().top < window.innerHeight + 64) {
+        revealed.add(target);
+        return;
+      }
+      observer?.observe(target);
+    });
+  };
+
+  document.addEventListener('focusin', event => {
+    if (!(event.target instanceof Node)) return;
+    for (const [target, animation] of animations) {
+      if (target.contains(event.target)) animation.finish();
+    }
+  });
+  preference.addEventListener('change', observe);
+  window.addEventListener('pagehide', stop);
+  window.addEventListener('pageshow', event => { if (event.persisted) observe(); });
+  observe();
+</script>

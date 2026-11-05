@@ -1,4 +1,11 @@
 ---
 import { sitePath } from '../lib/urls';
+import Brand from './Brand.astro';
 ---
-<footer class="site-footer"><div><a class="footer-brand" href={sitePath('/')}>Marpos Studio</a><p>A little guidance. Better publishing.</p></div><div class="footer-links"><a href={sitePath('/blog/')}>User manual</a><a href={sitePath('/library/')}>Media & credits</a><a href={sitePath('/about/')}>About this reference</a><a href={sitePath('/rss.xml')}>RSS</a></div><p class="colophon">An Astro reference website · Sample editorial content · Photography credited in the media library.</p></footer>
+<footer class="site-footer">
+  <div class="footer-main">
+    <div><Brand footer /><p>A space for your ideas.<br />A better way to put them out there.</p></div>
+    <div class="footer-links"><a href={sitePath('/blog/')}>User manual</a><a href={sitePath('/library/')}>Media & credits</a><a href={sitePath('/about/')}>About this showcase</a><a href={sitePath('/rss.xml')}>RSS feed ↗</a></div>
+  </div>
+  <div class="colophon"><p>Built with Astro. Made editable with Marpos Studio.</p><p>Sample content. Real possibilities.</p></div>
+</footer>

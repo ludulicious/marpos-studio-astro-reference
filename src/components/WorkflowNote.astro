@@ -14,9 +14,9 @@ const { title, tone = 'info', compact = false } = Astro.props;
   .workflow-note {
     margin-block: 2rem;
     padding: 1.5rem;
-    border-inline-start: 4px solid var(--accent);
+    border-inline-start: 4px solid var(--color-accent);
     border-radius: 0 0.5rem 0.5rem 0;
-    background: rgba(var(--gray-light), 0.45);
+    background: var(--color-accent-soft);
   }
   .workflow-note[data-tone="success"] { border-color: #187348; background: #edf8f0; }
   .workflow-note[data-tone="warning"] { border-color: #996400; background: #fff7df; }
